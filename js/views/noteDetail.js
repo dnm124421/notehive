@@ -47,6 +47,27 @@ window.renderNoteDetailModal = function(contentId) {
         ${item.body}
       </div>
 
+      <!-- Attached PDF File Section -->
+      ${(item.pdfData || item.pdfName) ? `
+        <div class="bg-primary-container neo-border p-3 flex flex-col gap-2 neo-shadow-sm">
+          <div class="flex items-center justify-between">
+            <span class="font-label-bold text-xs uppercase flex items-center gap-1 text-on-surface">
+              <span class="material-symbols-outlined text-sm text-error">picture_as_pdf</span>
+              PDF: ${item.pdfName || 'Document.pdf'} ${item.pdfSize ? `(${item.pdfSize})` : ''}
+            </span>
+            <span class="bg-error text-white font-black text-[9px] px-1.5 py-0.5 uppercase neo-border-sm">COMPULSORY PDF</span>
+          </div>
+          <div class="flex gap-2">
+            <a href="${item.pdfData || '#'}" download="${item.pdfName || 'note_document.pdf'}" target="_blank" class="flex-1 py-2 bg-surface neo-border neo-shadow-sm neo-btn font-label-bold text-xs uppercase flex items-center justify-center gap-1 text-on-surface">
+              <span class="material-symbols-outlined text-sm">download</span> Download PDF
+            </a>
+            <button id="btn-view-pdf-doc" class="flex-1 py-2 bg-secondary-container neo-border neo-shadow-sm neo-btn font-label-bold text-xs uppercase flex items-center justify-center gap-1">
+              <span class="material-symbols-outlined text-sm">visibility</span> View PDF
+            </button>
+          </div>
+        </div>
+      ` : ''}
+
       <!-- External URL embedded link if present -->
       ${item.externalUrl ? `
         <div class="bg-surface-container neo-border p-3 flex flex-col gap-2">
@@ -108,6 +129,23 @@ window.renderNoteDetailModal = function(contentId) {
   const closeModal = () => modalDiv.remove();
   document.getElementById('close-note-modal').onclick = closeModal;
   document.getElementById('close-note-modal-btn').onclick = closeModal;
+
+  // View PDF listener
+  const viewPdfBtn = document.getElementById('btn-view-pdf-doc');
+  if (viewPdfBtn) {
+    viewPdfBtn.onclick = () => {
+      if (item.pdfData) {
+        const win = window.open();
+        if (win) {
+          win.document.write(`<iframe src="${item.pdfData}" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>`);
+        } else {
+          window.location.href = item.pdfData;
+        }
+      } else {
+        document.getElementById('btn-export-pdf').click();
+      }
+    };
+  }
 
   // Save Offline toggle
   document.getElementById('btn-modal-offline').onclick = () => {

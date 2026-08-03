@@ -60,21 +60,82 @@
   --shadow-offset: 8px;
 }
 
+/* Dark Neon Theme */
 .dark {
-  --background: #121212;
-  --on-background: #f1f1f1;
-  --surface: #1a1a1a;
-  --surface-dim: #101010;
-  --surface-bright: #252525;
-  --surface-container-lowest: #1e1e1e;
-  --surface-container-low: #242424;
-  --surface-container: #2c2c2c;
-  --surface-container-high: #333333;
-  --surface-container-highest: #3a3a3a;
-  --surface-variant: #004d4d;
-  --on-surface: #ffffff;
-  --on-surface-variant: #ffffff;
-  --ink-black: #ffffff;
+  --primary: #00F0FF;
+  --on-primary: #000000;
+  --primary-container: #00F0FF;
+  --on-primary-container: #000000;
+  --primary-fixed: #00F0FF;
+  --primary-fixed-dim: #00F0FF;
+  --on-primary-fixed: #000000;
+
+  --secondary: #39FF14;
+  --on-secondary: #000000;
+  --secondary-container: #39FF14;
+  --on-secondary-container: #000000;
+  --secondary-fixed: #39FF14;
+
+  --tertiary: #FF007F;
+  --on-tertiary: #ffffff;
+  --tertiary-container: #FF007F;
+  --on-tertiary-container: #ffffff;
+  --tertiary-fixed: #FF007F;
+
+  --error: #FF0055;
+  --on-error: #ffffff;
+
+  --background: #090B15;
+  --on-background: #00F0FF;
+  --surface: #0E1225;
+  --surface-dim: #070912;
+  --surface-bright: #171E3A;
+  --surface-container-lowest: #0A0D1B;
+  --surface-container-low: #11162C;
+  --surface-container: #171D38;
+  --surface-container-high: #1F274A;
+  --surface-container-highest: #28325E;
+  --surface-variant: #00F0FF;
+  --on-surface: #F0F6FC;
+  --on-surface-variant: #94A3B8;
+  --ink-black: #00F0FF;
+}
+
+.dark .neo-border {
+  border: 3px solid #00F0FF !important;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+}
+
+.dark .neo-border-sm {
+  border: 2px solid #00F0FF !important;
+}
+
+.dark .neo-shadow {
+  box-shadow: 6px 6px 0px 0px #00F0FF, 0 0 15px rgba(0, 240, 255, 0.35) !important;
+}
+
+.dark .neo-shadow-sm {
+  box-shadow: 3px 3px 0px 0px #FF007F, 0 0 10px rgba(255, 0, 127, 0.3) !important;
+}
+
+.dark .neo-shadow-lg {
+  box-shadow: 10px 10px 0px 0px #39FF14, 0 0 20px rgba(57, 255, 20, 0.4) !important;
+}
+
+.dark .neo-btn:active, .dark .neo-btn.active-state {
+  box-shadow: 2px 2px 0px 0px #00F0FF !important;
+}
+
+.dark .neo-input {
+  border: 2px solid #00F0FF !important;
+  background-color: #0A0D1B !important;
+  color: #FFFFFF !important;
+}
+
+.dark .neo-input:focus {
+  background-color: #171E3A !important;
+  border-color: #FFE600 !important;
+  box-shadow: 0 0 12px rgba(255, 230, 0, 0.6) !important;
 }
 
 .dark-hc {

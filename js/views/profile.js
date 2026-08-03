@@ -132,7 +132,7 @@ window.renderProfileView = function(container) {
             </button>
             <button data-theme="dark" class="btn-theme-select flex-1 py-2 neo-border font-label-bold text-xs uppercase text-center transition-all ${currentTheme === 'dark' ? 'bg-primary-container neo-shadow translate-x-0.5 -translate-y-0.5' : 'bg-surface-container'}">
               <span class="material-symbols-outlined text-sm block mx-auto mb-0.5">dark_mode</span>
-              Dark
+              Dark Neon
             </button>
             <button data-theme="dark-hc" class="btn-theme-select flex-1 py-2 neo-border font-label-bold text-xs uppercase text-center transition-all ${currentTheme === 'dark-hc' ? 'bg-primary-container neo-shadow translate-x-0.5 -translate-y-0.5' : 'bg-surface-container'}">
               <span class="material-symbols-outlined text-sm block mx-auto mb-0.5">contrast</span>

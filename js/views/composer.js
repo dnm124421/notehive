@@ -2,9 +2,13 @@
  * Global Composer Modal ("+" FAB): Post Notes, Assignments, or YT Links
  */
 
-window.renderComposerModal = function(preselectedSubjectId = null) {
+window.renderComposerModal = function(preselectedSubjectId = null, preselectedTab = 'notes') {
   const allSubjects = window.store.state.subjects;
   const activeSubjectId = preselectedSubjectId || (allSubjects[0] ? allSubjects[0].id : 'sbj_dp');
+
+  let selectedType = 'note';
+  if (preselectedTab === 'assignments') selectedType = 'assignment';
+  if (preselectedTab === 'resources') selectedType = 'resource_link';
 
   const modalDiv = document.createElement('div');
   modalDiv.className = "fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 overflow-y-auto";
@@ -25,13 +29,13 @@ window.renderComposerModal = function(preselectedSubjectId = null) {
 
       <!-- Content Type Selector -->
       <div class="flex gap-2">
-        <button type="button" data-type="note" class="btn-select-type flex-1 py-2 bg-primary-container neo-border font-label-bold text-xs uppercase text-center active-type">
+        <button type="button" data-type="note" class="btn-select-type flex-1 py-2 ${selectedType === 'note' ? 'bg-primary-container' : 'bg-surface'} neo-border font-label-bold text-xs uppercase text-center">
           Note
         </button>
-        <button type="button" data-type="assignment" class="btn-select-type flex-1 py-2 bg-surface neo-border font-label-bold text-xs uppercase text-center">
+        <button type="button" data-type="assignment" class="btn-select-type flex-1 py-2 ${selectedType === 'assignment' ? 'bg-primary-container' : 'bg-surface'} neo-border font-label-bold text-xs uppercase text-center">
           Assignment
         </button>
-        <button type="button" data-type="resource_link" class="btn-select-type flex-1 py-2 bg-surface neo-border font-label-bold text-xs uppercase text-center">
+        <button type="button" data-type="resource_link" class="btn-select-type flex-1 py-2 ${selectedType === 'resource_link' ? 'bg-primary-container' : 'bg-surface'} neo-border font-label-bold text-xs uppercase text-center">
           YT Link
         </button>
       </div>
@@ -54,14 +58,29 @@ window.renderComposerModal = function(preselectedSubjectId = null) {
           <input id="composer-title" class="neo-input text-xs" placeholder="e.g. Scaling & Normalization Blueprint" />
         </div>
 
-        <div id="composer-link-container" class="hidden flex-col gap-1">
-          <label class="font-label-bold text-xs uppercase">Resource URL (YouTube / Article / PDF)</label>
+        <div id="composer-link-container" class="${selectedType === 'resource_link' ? 'flex' : 'hidden'} flex-col gap-1">
+          <label class="font-label-bold text-xs uppercase">Resource URL (YouTube / Article / Link)</label>
           <input id="composer-link" class="neo-input text-xs" placeholder="https://www.youtube.com/watch?v=..." />
+        </div>
+
+        <!-- Compulsory PDF Attachment for Notes & Assignments -->
+        <div id="composer-pdf-container" class="${selectedType === 'resource_link' ? 'hidden' : 'flex'} flex-col gap-1 bg-surface-container-lowest neo-border p-3">
+          <label class="font-label-bold text-xs uppercase text-on-surface flex items-center justify-between">
+            <span class="flex items-center gap-1">
+              <span class="material-symbols-outlined text-sm text-error">picture_as_pdf</span>
+              Attach PDF File
+            </span>
+            <span class="bg-error text-white font-black text-[9px] px-1.5 py-0.5 uppercase neo-border-sm">COMPULSORY *</span>
+          </label>
+          <input type="file" id="composer-pdf" accept="application/pdf,.pdf" class="neo-input text-xs cursor-pointer bg-surface" />
+          <div id="composer-pdf-status" class="font-label-sm text-[11px] text-error font-bold italic">
+            * A PDF document file is required for Notes & Assignments.
+          </div>
         </div>
 
         <div class="flex flex-col gap-1">
           <label class="font-label-bold text-xs uppercase">Content Body / Summary</label>
-          <textarea id="composer-body" class="neo-input text-xs h-28" placeholder="Write key notes, steps, or explanation..."></textarea>
+          <textarea id="composer-body" class="neo-input text-xs h-24" placeholder="Write key notes, steps, or explanation..."></textarea>
         </div>
 
         <div class="flex flex-col gap-1">
@@ -80,7 +99,41 @@ window.renderComposerModal = function(preselectedSubjectId = null) {
 
   document.body.appendChild(modalDiv);
 
-  let selectedType = 'note';
+  let pdfName = null;
+  let pdfData = null;
+  let pdfSize = null;
+
+  // File Upload Reader Handler
+  const pdfInput = modalDiv.querySelector('#composer-pdf');
+  const pdfStatus = modalDiv.querySelector('#composer-pdf-status');
+
+  if (pdfInput) {
+    pdfInput.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        if (file.type !== 'application/pdf' && !file.name.endsWith('.pdf')) {
+          alert('Please select a valid PDF document!');
+          pdfInput.value = '';
+          pdfName = null;
+          pdfData = null;
+          pdfSize = null;
+          pdfStatus.className = 'font-label-sm text-[11px] text-error font-bold italic';
+          pdfStatus.innerText = '* A PDF document file is required for Notes & Assignments.';
+          return;
+        }
+        pdfName = file.name;
+        pdfSize = (file.size / 1024).toFixed(1) + ' KB';
+
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          pdfData = evt.target.result;
+          pdfStatus.className = 'font-label-sm text-[11px] text-secondary font-black flex items-center gap-1';
+          pdfStatus.innerHTML = `<span class="material-symbols-outlined text-xs">check_circle</span> Attached: ${pdfName} (${pdfSize})`;
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+  }
 
   // Toggle Type Selection
   modalDiv.querySelectorAll('.btn-select-type').forEach(btn => {
@@ -94,12 +147,18 @@ window.renderComposerModal = function(preselectedSubjectId = null) {
       selectedType = e.currentTarget.getAttribute('data-type');
 
       const linkContainer = document.getElementById('composer-link-container');
+      const pdfContainer = document.getElementById('composer-pdf-container');
+
       if (selectedType === 'resource_link') {
         linkContainer.classList.remove('hidden');
         linkContainer.classList.add('flex');
+        pdfContainer.classList.add('hidden');
+        pdfContainer.classList.remove('flex');
       } else {
         linkContainer.classList.add('hidden');
         linkContainer.classList.remove('flex');
+        pdfContainer.classList.remove('hidden');
+        pdfContainer.classList.add('flex');
       }
     };
   });
@@ -121,6 +180,12 @@ window.renderComposerModal = function(preselectedSubjectId = null) {
       return;
     }
 
+    // Compulsory check for PDF in Notes and Assignments
+    if ((selectedType === 'note' || selectedType === 'assignment') && (!pdfData || !pdfName)) {
+      alert("COMPULSORY REQUIREMENT: You must attach a PDF file before publishing Notes or Assignments!");
+      return;
+    }
+
     let tabTarget = 'notes';
     if (selectedType === 'assignment') tabTarget = 'assignments';
     if (selectedType === 'resource_link') tabTarget = 'resources';
@@ -132,12 +197,16 @@ window.renderComposerModal = function(preselectedSubjectId = null) {
       title,
       body,
       externalUrl: selectedType === 'resource_link' ? externalUrl : null,
+      pdfName: (selectedType === 'note' || selectedType === 'assignment') ? pdfName : null,
+      pdfData: (selectedType === 'note' || selectedType === 'assignment') ? pdfData : null,
+      pdfSize: (selectedType === 'note' || selectedType === 'assignment') ? pdfSize : null,
       tags,
-      categoryLabel: selectedType === 'resource_link' ? 'Curated Link' : 'Member Post'
+      categoryLabel: selectedType === 'resource_link' ? 'Curated Link' : (selectedType === 'assignment' ? 'Assignment Sol.' : 'Member Note')
     });
 
     closeModal();
-    window.showToast("Published! Members notified immediately.");
+    window.showToast("Published! PDF Attached & Members notified immediately.");
     window.router.navigate('subjectDetail', { subjectId, tab: tabTarget });
   };
 };
+

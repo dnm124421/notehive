@@ -282,6 +282,12 @@ window.renderSubjectDetailView = function(container, params = {}) {
                         </a>
                       ` : ''}
 
+                      ${(item.pdfData || item.pdfName) ? `
+                        <div class="mb-4 inline-flex items-center gap-1 font-label-bold text-xs bg-error text-white px-2 py-1 neo-border">
+                          <span class="material-symbols-outlined text-sm">picture_as_pdf</span> PDF Attached
+                        </div>
+                      ` : ''}
+
                       <div class="flex items-center justify-between border-t-2 border-on-surface pt-2 border-dashed relative z-10">
                         <div class="flex items-center gap-2">
                           <button data-content-id="${item.id}" data-delta="1" class="btn-vote w-8 h-8 ${getUserVote(item.id) === 1 ? 'bg-secondary text-white' : 'bg-surface'} neo-border neo-shadow-sm neo-btn flex items-center justify-center">
@@ -319,7 +325,10 @@ window.renderSubjectDetailView = function(container, params = {}) {
                   <span class="font-label-bold text-[10px] text-on-surface uppercase">${item.type.substring(0, 3)}</span>
                 </div>
                 <div data-content-id="${item.id}" class="btn-open-note flex-1 min-w-0 pr-2 cursor-pointer">
-                  <h5 class="font-label-bold text-xs text-on-surface uppercase truncate">${item.title}</h5>
+                  <div class="flex items-center gap-1">
+                    <h5 class="font-label-bold text-xs text-on-surface uppercase truncate">${item.title}</h5>
+                    ${(item.pdfData || item.pdfName) ? '<span class="material-symbols-outlined text-xs text-error">picture_as_pdf</span>' : ''}
+                  </div>
                   <p class="font-body-md text-[10px] text-on-surface-variant truncate">By @${item.authorName}</p>
                 </div>
                 <div class="flex items-center gap-2">
@@ -335,6 +344,14 @@ window.renderSubjectDetailView = function(container, params = {}) {
       </div>
     </div>
   `;
+
+  // Listener for Post First Note button
+  const firstPostBtn = container.querySelector('#btn-first-post');
+  if (firstPostBtn) {
+    firstPostBtn.addEventListener('click', () => {
+      window.renderComposerModal(subjectId, activeTab);
+    });
+  }
 
   // Listeners for Tab Switching
   container.querySelectorAll('.btn-switch-tab').forEach(btn => {

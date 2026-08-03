@@ -249,7 +249,7 @@ class StoreEngine {
     }
   }
 
-  createContent({ subjectId, tab, type, title, body, externalUrl, tags, categoryLabel }) {
+  createContent({ subjectId, tab, type, title, body, externalUrl, pdfName, pdfData, pdfSize, tags, categoryLabel }) {
     const author = this.state.currentUser;
     const newContent = {
       id: 'content_' + Date.now(),
@@ -259,6 +259,9 @@ class StoreEngine {
       title,
       body: body || '',
       externalUrl: externalUrl || null,
+      pdfName: pdfName || null,
+      pdfData: pdfData || null,
+      pdfSize: pdfSize || null,
       thumbnailUrl: externalUrl && externalUrl.includes('youtube.com') ? 
         `https://img.youtube.com/vi/${this.extractYTId(externalUrl)}/hqdefault.jpg` : null,
       tags: tags || [],

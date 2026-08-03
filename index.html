@@ -22,35 +22,35 @@
       theme: {
         extend: {
           colors: {
-            "primary": "#FFFF00",
-            "on-primary": "#000000",
-            "primary-container": "#FFFF00",
-            "on-primary-container": "#000000",
-            "primary-fixed": "#FFFF00",
-            "secondary": "#01FF77",
-            "on-secondary": "#000000",
-            "secondary-container": "#01FF77",
-            "on-secondary-container": "#000000",
-            "secondary-fixed": "#01FF77",
-            "tertiary": "#FF00FF",
-            "on-tertiary": "#ffffff",
-            "tertiary-container": "#FF00FF",
-            "on-tertiary-container": "#000000",
-            "tertiary-fixed": "#FF00FF",
-            "surface-variant": "#00FFFF",
-            "error": "#FF0055",
-            "on-error": "#ffffff",
-            "background": "#ffffff",
-            "on-background": "#000000",
-            "surface": "#ffffff",
-            "surface-dim": "#cccccc",
-            "surface-container-lowest": "#ffffff",
-            "surface-container-low": "#f3f3f3",
-            "surface-container": "#eeeeee",
-            "surface-container-high": "#e8e8e8",
-            "surface-container-highest": "#e2e2e2",
-            "on-surface": "#000000",
-            "on-surface-variant": "#000000"
+            "primary": "var(--primary)",
+            "on-primary": "var(--on-primary)",
+            "primary-container": "var(--primary-container)",
+            "on-primary-container": "var(--on-primary-container)",
+            "primary-fixed": "var(--primary-fixed)",
+            "secondary": "var(--secondary)",
+            "on-secondary": "var(--on-secondary)",
+            "secondary-container": "var(--secondary-container)",
+            "on-secondary-container": "var(--on-secondary-container)",
+            "secondary-fixed": "var(--secondary-fixed)",
+            "tertiary": "var(--tertiary)",
+            "on-tertiary": "var(--on-tertiary)",
+            "tertiary-container": "var(--tertiary-container)",
+            "on-tertiary-container": "var(--on-tertiary-container)",
+            "tertiary-fixed": "var(--tertiary-fixed)",
+            "surface-variant": "var(--surface-variant)",
+            "error": "var(--error)",
+            "on-error": "var(--on-error)",
+            "background": "var(--background)",
+            "on-background": "var(--on-background)",
+            "surface": "var(--surface)",
+            "surface-dim": "var(--surface-dim)",
+            "surface-container-lowest": "var(--surface-container-lowest)",
+            "surface-container-low": "var(--surface-container-low)",
+            "surface-container": "var(--surface-container)",
+            "surface-container-high": "var(--surface-container-high)",
+            "surface-container-highest": "var(--surface-container-highest)",
+            "on-surface": "var(--on-surface)",
+            "on-surface-variant": "var(--on-surface-variant)"
           },
           fontFamily: {
             "headline-lg": ["Anybody", "sans-serif"],
@@ -72,23 +72,23 @@
 <body class="bg-background font-body-md text-on-background min-h-screen">
 
   <!-- Fixed App Header (Visible when logged in) -->
-  <header id="app-header" class="fixed top-0 w-full z-50 bg-white border-b-4 border-black pt-safe" style="display: none;">
+  <header id="app-header" class="fixed top-0 w-full z-50 bg-surface border-b-4 border-on-background pt-safe" style="display: none;">
     <div class="h-16 flex items-center justify-between px-4 max-w-md mx-auto">
       <div class="flex items-center gap-2 cursor-pointer" onclick="window.router.navigate('home')">
         <!-- Logo Stamp -->
-        <div class="w-9 h-9 border-2 border-black bg-primary-container flex items-center justify-center neo-shadow-sm transform -rotate-3">
+        <div class="w-9 h-9 border-2 border-on-background bg-primary-container flex items-center justify-center neo-shadow-sm transform -rotate-3">
           <svg fill="none" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2L22 7.7735V16.2265L12 22L2 16.2265V7.7735L12 2Z" stroke="#000000" stroke-linejoin="round" stroke-width="2"></path>
-            <path d="M9 10H15M9 14H13" stroke="#000000" stroke-linecap="round" stroke-width="2"></path>
+            <path d="M12 2L22 7.7735V16.2265L12 22L2 16.2265V7.7735L12 2Z" stroke="var(--on-background)" stroke-linejoin="round" stroke-width="2"></path>
+            <path d="M9 10H15M9 14H13" stroke="var(--on-background)" stroke-linecap="round" stroke-width="2"></path>
           </svg>
         </div>
-        <span class="font-headline-md text-xl uppercase tracking-tighter">NoteHive</span>
+        <span class="font-headline-md text-xl uppercase tracking-tighter text-on-background">NoteHive</span>
       </div>
 
       <div class="flex items-center gap-3">
         <!-- Notification Bell -->
-        <button id="header-notif-btn" class="w-10 h-10 neo-border bg-white neo-shadow-sm flex items-center justify-center relative active:translate-x-0.5 active:translate-y-0.5">
-          <span class="material-symbols-outlined text-xl text-black">notifications</span>
+        <button id="header-notif-btn" class="w-10 h-10 neo-border bg-surface neo-shadow-sm flex items-center justify-center relative active:translate-x-0.5 active:translate-y-0.5">
+          <span class="material-symbols-outlined text-xl text-on-background">notifications</span>
           <span id="header-notif-badge" class="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-error text-white font-label-bold text-[10px] items-center justify-center neo-border" style="display: none;">
             0
           </span>
@@ -96,7 +96,7 @@
 
         <!-- Profile Avatar -->
         <button id="header-profile-btn" class="w-10 h-10 neo-border bg-primary-container flex items-center justify-center neo-shadow-sm active:translate-x-0.5 active:translate-y-0.5">
-          <span class="material-symbols-outlined text-xl text-black font-bold">person</span>
+          <span class="material-symbols-outlined text-xl text-on-background font-bold">person</span>
         </button>
       </div>
     </div>
@@ -114,26 +114,26 @@
   </button>
 
   <!-- Fixed Bottom Navigation Bar -->
-  <nav id="app-bottom-nav" class="fixed bottom-0 w-full z-50 bg-white border-t-4 border-black pb-safe" style="display: none;">
+  <nav id="app-bottom-nav" class="fixed bottom-0 w-full z-50 bg-surface border-t-4 border-on-background pb-safe" style="display: none;">
     <div class="h-16 flex justify-around items-center px-2 max-w-md mx-auto">
-      <a href="#" data-route="home" class="app-nav-item flex flex-col items-center justify-center gap-0.5 px-3 py-1 border-4 border-black bg-primary-container shadow-none translate-x-1 translate-y-1 transition-all">
-        <span class="material-symbols-outlined font-bold text-lg">home</span>
-        <span class="font-label-bold text-[10px] uppercase">Home</span>
+      <a href="#" data-route="home" class="app-nav-item flex flex-col items-center justify-center gap-0.5 px-3 py-1 border-4 border-on-background bg-primary-container shadow-none translate-x-1 translate-y-1 transition-all">
+        <span class="material-symbols-outlined font-bold text-lg text-on-background">home</span>
+        <span class="font-label-bold text-[10px] uppercase text-on-background">Home</span>
       </a>
 
-      <a href="#" data-route="subjects" class="app-nav-item flex flex-col items-center justify-center gap-0.5 px-3 py-1 border-4 border-black bg-white neo-shadow-sm transition-all">
-        <span class="material-symbols-outlined font-bold text-lg">auto_stories</span>
-        <span class="font-label-bold text-[10px] uppercase">Subjects</span>
+      <a href="#" data-route="subjects" class="app-nav-item flex flex-col items-center justify-center gap-0.5 px-3 py-1 border-4 border-on-background bg-surface neo-shadow-sm transition-all">
+        <span class="material-symbols-outlined font-bold text-lg text-on-background">auto_stories</span>
+        <span class="font-label-bold text-[10px] uppercase text-on-background">Subjects</span>
       </a>
 
-      <a href="#" data-route="leaderboard" class="app-nav-item flex flex-col items-center justify-center gap-0.5 px-3 py-1 border-4 border-black bg-white neo-shadow-sm transition-all">
-        <span class="material-symbols-outlined font-bold text-lg">leaderboard</span>
-        <span class="font-label-bold text-[10px] uppercase">Ranking</span>
+      <a href="#" data-route="leaderboard" class="app-nav-item flex flex-col items-center justify-center gap-0.5 px-3 py-1 border-4 border-on-background bg-surface neo-shadow-sm transition-all">
+        <span class="material-symbols-outlined font-bold text-lg text-on-background">leaderboard</span>
+        <span class="font-label-bold text-[10px] uppercase text-on-background">Ranking</span>
       </a>
 
-      <a href="#" data-route="profile" class="app-nav-item flex flex-col items-center justify-center gap-0.5 px-3 py-1 border-4 border-black bg-white neo-shadow-sm transition-all">
-        <span class="material-symbols-outlined font-bold text-lg">person</span>
-        <span class="font-label-bold text-[10px] uppercase">Profile</span>
+      <a href="#" data-route="profile" class="app-nav-item flex flex-col items-center justify-center gap-0.5 px-3 py-1 border-4 border-on-background bg-surface neo-shadow-sm transition-all">
+        <span class="material-symbols-outlined font-bold text-lg text-on-background">person</span>
+        <span class="font-label-bold text-[10px] uppercase text-on-background">Profile</span>
       </a>
     </div>
   </nav>
