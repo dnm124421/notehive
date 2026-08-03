@@ -1,0 +1,265 @@
+/* NoteHive Neo-Brutalist Design System */
+@import url('https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,100..900;1,100..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
+:root {
+  /* Design Tokens from Stitch UI Export */
+  --primary: #6a5f00;
+  --on-primary: #ffffff;
+  --primary-container: #ffe600;
+  --on-primary-container: #726600;
+  --primary-fixed: #fde400;
+  --primary-fixed-dim: #dec800;
+  --on-primary-fixed: #201c00;
+  --on-primary-fixed-variant: #504700;
+  --inverse-primary: #dec800;
+
+  --secondary: #006d36;
+  --on-secondary: #ffffff;
+  --secondary-container: #41fe8e;
+  --on-secondary-container: #007238;
+  --secondary-fixed: #61ff97;
+  --secondary-fixed-dim: #01e477;
+  --on-secondary-fixed: #00210c;
+  --on-secondary-fixed-variant: #005227;
+
+  --tertiary: #a600b1;
+  --on-tertiary: #ffffff;
+  --tertiary-container: #ffd9f9;
+  --on-tertiary-container: #af14ba;
+  --tertiary-fixed: #ffd6f9;
+  --tertiary-fixed-dim: #ffa9fb;
+  --on-tertiary-fixed: #37003b;
+  --on-tertiary-fixed-variant: #7e0088;
+
+  --error: #ba1a1a;
+  --on-error: #ffffff;
+  --error-container: #ffdad6;
+  --on-error-container: #93000a;
+
+  --background: #f9f9f9;
+  --on-background: #1b1b1b;
+  --surface: #f9f9f9;
+  --surface-dim: #dadada;
+  --surface-bright: #f9f9f9;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f3f3f3;
+  --surface-container: #eeeeee;
+  --surface-container-high: #e8e8e8;
+  --surface-container-highest: #e2e2e2;
+  --surface-variant: #e2e2e2;
+  --on-surface: #1b1b1b;
+  --on-surface-variant: #4b4731;
+
+  --outline: #7c775f;
+  --outline-variant: #cdc7aa;
+  --surface-tint: #6a5f00;
+
+  --ink-black: #1b1b1b;
+  --border-width: 3px;
+  --shadow-offset: 6px;
+}
+
+.dark {
+  --background: #121212;
+  --on-background: #f1f1f1;
+  --surface: #1a1a1a;
+  --surface-dim: #101010;
+  --surface-bright: #252525;
+  --surface-container-lowest: #1e1e1e;
+  --surface-container-low: #242424;
+  --surface-container: #2c2c2c;
+  --surface-container-high: #333333;
+  --surface-container-highest: #3a3a3a;
+  --surface-variant: #333333;
+  --on-surface: #ffffff;
+  --on-surface-variant: #d4d0b8;
+  --ink-black: #ffffff;
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Work Sans', sans-serif;
+  background-color: var(--background);
+  color: var(--on-background);
+  line-height: 1.5;
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
+}
+
+/* Typography Utility Classes */
+h1, h2, h3, h4, h5, h6, .font-headline {
+  font-family: 'Anybody', sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.font-display-xl {
+  font-family: 'Anybody', sans-serif;
+  font-size: 80px;
+  line-height: 80px;
+  letter-spacing: -0.04em;
+  font-weight: 900;
+}
+
+.font-headline-lg {
+  font-family: 'Anybody', sans-serif;
+  font-size: 48px;
+  line-height: 52px;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+}
+
+.font-headline-lg-mobile {
+  font-family: 'Anybody', sans-serif;
+  font-size: 36px;
+  line-height: 40px;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+}
+
+.font-headline-md {
+  font-family: 'Anybody', sans-serif;
+  font-size: 32px;
+  line-height: 36px;
+  font-weight: 700;
+}
+
+.font-label-bold {
+  font-family: 'Anybody', sans-serif;
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 900;
+}
+
+.font-label-sm {
+  font-family: 'Work Sans', sans-serif;
+  font-size: 12px;
+  line-height: 14px;
+  font-weight: 600;
+}
+
+/* Neo-Brutalist Utilities */
+.neo-border {
+  border: 3px solid var(--ink-black) !important;
+}
+
+.neo-border-sm {
+  border: 2px solid var(--ink-black) !important;
+}
+
+.neo-shadow {
+  box-shadow: 6px 6px 0px 0px var(--ink-black) !important;
+}
+
+.neo-shadow-sm {
+  box-shadow: 4px 4px 0px 0px var(--ink-black) !important;
+}
+
+.neo-shadow-lg {
+  box-shadow: 8px 8px 0px 0px var(--ink-black) !important;
+}
+
+/* Button & Tactile Press Effect */
+.neo-btn {
+  border: 3px solid var(--ink-black);
+  box-shadow: 6px 6px 0px 0px var(--ink-black);
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.15s ease;
+  cursor: pointer;
+  display: inline-flex;
+  items-center: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.neo-btn:active, .neo-btn.active-state {
+  transform: translate(4px, 4px) !important;
+  box-shadow: 2px 2px 0px 0px var(--ink-black) !important;
+}
+
+.neo-btn-sm {
+  border: 2px solid var(--ink-black);
+  box-shadow: 3px 3px 0px 0px var(--ink-black);
+  cursor: pointer;
+  user-select: none;
+}
+
+.neo-btn-sm:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 1px 1px 0px 0px var(--ink-black) !important;
+}
+
+/* Checkered Divider Pattern */
+.checkered-divider {
+  height: 24px;
+  width: 100%;
+  background-image: linear-gradient(45deg, var(--ink-black) 25%, transparent 25%),
+                    linear-gradient(-45deg, var(--ink-black) 25%, transparent 25%),
+                    linear-gradient(45deg, transparent 75%, var(--ink-black) 75%),
+                    linear-gradient(-45deg, transparent 75%, var(--ink-black) 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+  background-color: var(--surface-container-lowest);
+  border-top: 3px solid var(--ink-black);
+  border-bottom: 3px solid var(--ink-black);
+}
+
+/* Custom Scrollbar & Utilities */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Material Symbols Adjustments */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 600, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+
+.material-symbols-outlined.filled {
+  font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Input Fields */
+.neo-input {
+  border: 3px solid var(--ink-black);
+  background-color: var(--surface-container-lowest);
+  color: var(--on-surface);
+  padding: 12px 16px;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 16px;
+  outline: none;
+  transition: background-color 0.15s ease;
+}
+
+.neo-input:focus {
+  background-color: #fffde6;
+}
+
+/* Toast Animations */
+@keyframes slideDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.toast-animate {
+  animation: slideDown 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Safe Area Insets for Mobile */
+.pb-safe {
+  padding-bottom: max(20px, env(safe-area-inset-bottom, 20px));
+}
+.pt-safe {
+  padding-top: max(16px, env(safe-area-inset-top, 16px));
+}

@@ -1,0 +1,64 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,100..900;1,100..900&amp;family=Work+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { theme: { extend: { "colors": { "on-secondary": "#ffffff", "surface": "#f9f9f9", "on-surface": "#1b1b1b", "primary": "#6a5f00", "background": "#f9f9f9" }, "fontFamily": { "headline-md": ["Anybody"], "body-md": ["Work Sans"] } } } }</script></head><body class="bg-background font-body-md"><main class="w-full min-h-screen"><div class="flex flex-col w-full h-full relative overflow-hidden bg-background">
+<!-- Graphic Background Elements -->
+<div class="absolute top-[-10%] left-[-10%] w-64 h-64 bg-primary-fixed opacity-20 rounded-full blur-3xl"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-64 h-64 bg-tertiary-container opacity-30 rounded-full blur-3xl"></div>
+<!-- Content Container -->
+<div class="flex flex-col flex-1 p-margin-mobile pt-12 relative z-10 justify-between">
+<!-- Header / Branding -->
+<div class="flex items-start justify-between w-full">
+<!-- NoteHive Logo Stamp -->
+<div class="w-12 h-12 border-border-width border-on-surface bg-on-secondary flex items-center justify-center transform -rotate-6 shadow-[4px_4px_0_0_#1b1b1b]">
+<svg fill="none" height="24" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2L22 7.7735V16.2265L12 22L2 16.2265V7.7735L12 2Z" stroke="#1b1b1b" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M9 10H15M9 14H13" stroke="#6a5f00" stroke-linecap="round" stroke-width="2"></path>
+<path d="M15 10L16 12L15 14" stroke="#6a5f00" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+<!-- Main Visual & Typography -->
+<div class="flex flex-col items-center text-center mt-8 space-y-6">
+<!-- Hand-drawn Doodle SVG (Decorative) -->
+<div class="absolute top-20 right-4 w-16 h-16 pointer-events-none opacity-80 transform rotate-12">
+<svg fill="none" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<path class="animate-pulse" d="M20 50 Q 50 10 80 50 T 20 50" stroke="#a600b1" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></path>
+<circle cx="50" cy="50" fill="#a600b1" r="4"></circle>
+<path d="M85 30 L 95 40 L 85 50" stroke="#a600b1" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"></path>
+</svg>
+</div>
+<!-- Hero Illustration -->
+<div class="relative w-full max-w-[280px] aspect-square border-border-width border-on-surface bg-surface-container shadow-[8px_8px_0_0_#1b1b1b] transform -rotate-2 overflow-hidden mx-auto mb-4">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="A chaotic but playful illustration of flying papers, a buzzing bee, and a bright yellow glowing lightbulb in a raw, hand-drawn comic style with thick black outlines and vibrant flat colors. A visual representation of frantic studying turning into an 'aha' moment." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBBUledBqNIY4sNImVRzeKrWZdR_b68IKEm5dtKcmsTTsTpf9pGEs7SlGbva4Ibl51d_XIz3m6DN7QXfWytCWMLLuHJxMAlFQ1NpUNFDAsmTmObdNRHutCORj-lStnpi9fYSNcBscwpuffwlD0Qh8koyEeWVOqB0tVO048zTkOcXkrziw1bHx4_THilNA8WNctzw1ctBHOkBO7yrLXtaY7jtcR9wZfkQ8R-ssvlQgfSq5pD2jDyjHpG')"></div>
+<!-- Another Doodle Overlay -->
+<svg class="absolute bottom-[-10px] left-[-20px] w-24 h-24 transform -rotate-12 opacity-90" fill="none" viewbox="0 0 100 100">
+<path d="M10 50 Q 30 70 50 50 T 90 50" stroke="#1b1b1b" stroke-linecap="round" stroke-width="5"></path>
+<path d="M30 40 L 40 60 L 50 40" stroke="#fde400" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"></path>
+</svg>
+</div>
+<!-- Typography -->
+<div class="flex flex-col space-y-2 relative">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface uppercase leading-none tracking-tighter">
+          Crush <br/>
+<span class="text-tertiary drop-shadow-[2px_2px_0_#1b1b1b]">The Chaos</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-[280px] mx-auto pt-2 border-t-border-width border-on-surface mt-4 border-dashed">
+          Organize your notes, ace your exams, and stop stressing. Your hive is waiting.
+        </p>
+</div>
+</div>
+<!-- Actions -->
+<div class="w-full flex flex-col space-y-4 mt-12 mb-8">
+<!-- Primary Button -->
+<button class="w-full py-4 bg-primary-fixed border-border-width border-on-surface shadow-[6px_6px_0_0_#1b1b1b] active:shadow-[2px_2px_0_0_#1b1b1b] active:translate-x-[4px] active:translate-y-[4px] transition-all duration-100 flex items-center justify-center space-x-2 group">
+<span class="font-label-bold text-label-bold text-on-primary-fixed uppercase tracking-widest text-lg">Get Started</span>
+<span class="material-symbols-outlined text-on-primary-fixed group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<!-- Secondary Button -->
+<button class="w-full py-4 bg-on-secondary border-border-width border-on-surface shadow-[6px_6px_0_0_#1b1b1b] active:shadow-[2px_2px_0_0_#1b1b1b] active:translate-x-[4px] active:translate-y-[4px] transition-all duration-100 flex items-center justify-center space-x-2">
+<span class="font-label-bold text-label-bold text-on-surface uppercase tracking-widest text-lg">Log In</span>
+</button>
+</div>
+</div>
+<!-- Checkered Divider Bottom -->
+<div class="w-full h-8 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PHJlY3Qgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBmaWxsPSIjMWIxYjFiIi8+PHJlY3QgeD0iMTAiIHk9IjEwIiB3aWR0aD0iMTAiIGhlaWdodD0iMTAiIGZpbGw9IiMxYjFiMWIiLz48L3N2Zz4=')] bg-repeat-x border-t-border-width border-on-surface absolute bottom-0 left-0"></div>
+</div></main></body></html>
