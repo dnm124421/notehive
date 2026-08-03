@@ -112,35 +112,7 @@ window.renderProfileView = function(container) {
         `).join('')}
       </div>
 
-      <!-- Settings & Preferences -->
-      <div class="flex flex-col gap-3">
-        <div class="border-b-3 border-on-surface pb-1">
-          <h2 class="font-headline-md text-lg uppercase text-on-surface">App Settings</h2>
-        </div>
 
-        <!-- 3-State Theme Toggle -->
-        <div class="bg-surface neo-border p-4 neo-shadow-sm flex flex-col gap-3">
-          <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-lg">palette</span>
-            <span class="font-label-bold text-xs uppercase">Theme Mode</span>
-          </div>
-
-          <div class="flex gap-2">
-            <button data-theme="light" class="btn-theme-select flex-1 py-2 neo-border font-label-bold text-xs uppercase text-center transition-all ${currentTheme === 'light' ? 'bg-primary-container neo-shadow translate-x-0.5 -translate-y-0.5' : 'bg-surface-container'}">
-              <span class="material-symbols-outlined text-sm block mx-auto mb-0.5">light_mode</span>
-              Light
-            </button>
-            <button data-theme="dark" class="btn-theme-select flex-1 py-2 neo-border font-label-bold text-xs uppercase text-center transition-all ${currentTheme === 'dark' ? 'bg-primary-container neo-shadow translate-x-0.5 -translate-y-0.5' : 'bg-surface-container'}">
-              <span class="material-symbols-outlined text-sm block mx-auto mb-0.5">dark_mode</span>
-              Dark Neon
-            </button>
-            <button data-theme="dark-hc" class="btn-theme-select flex-1 py-2 neo-border font-label-bold text-xs uppercase text-center transition-all ${currentTheme === 'dark-hc' ? 'bg-primary-container neo-shadow translate-x-0.5 -translate-y-0.5' : 'bg-surface-container'}">
-              <span class="material-symbols-outlined text-sm block mx-auto mb-0.5">contrast</span>
-              High Con.
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   `;
 
@@ -154,15 +126,6 @@ window.renderProfileView = function(container) {
     };
   });
 
-  // Theme Toggle (3-state: light / dark / dark-hc)
-  container.querySelectorAll('.btn-theme-select').forEach(btn => {
-    btn.onclick = (e) => {
-      const theme = e.currentTarget.getAttribute('data-theme');
-      window.store.setThemePreference(theme);
-      window.showToast(`Theme set to ${theme === 'dark-hc' ? 'High Contrast Dark' : theme.charAt(0).toUpperCase() + theme.slice(1)}!`);
-      window.router.renderCurrentView();
-    };
-  });
 
   // Open Avatar Selector
   const avatarBtn = container.querySelector('#btn-change-avatar');
