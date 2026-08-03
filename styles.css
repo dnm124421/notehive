@@ -77,6 +77,35 @@
   --ink-black: #ffffff;
 }
 
+.dark-hc {
+  --background: #000000;
+  --on-background: #ffffff;
+  --surface: #0a0a0a;
+  --surface-dim: #000000;
+  --surface-bright: #151515;
+  --surface-container-lowest: #000000;
+  --surface-container-low: #0f0f0f;
+  --surface-container: #181818;
+  --surface-container-high: #222222;
+  --surface-container-highest: #2a2a2a;
+  --surface-variant: #00FFFF;
+  --on-surface: #ffffff;
+  --on-surface-variant: #ffffff;
+  --ink-black: #ffffff;
+}
+
+.dark-hc .neo-shadow {
+  box-shadow: 8px 8px 0px 0px #FFFF00 !important;
+}
+
+.dark-hc .neo-shadow-sm {
+  box-shadow: 4px 4px 0px 0px #FFFF00 !important;
+}
+
+.dark-hc .neo-shadow-lg {
+  box-shadow: 12px 12px 0px 0px #FFFF00 !important;
+}
+
 /* Base Styles */
 * {
   box-sizing: border-box;

@@ -121,25 +121,76 @@ class StoreEngine {
     return this.state.notifications;
   }
 
-  getUnreadNotificationCount() {
-    return this.state.notifications.filter(n => !n.isRead).length;
+  getSubjectRequests(groupId) {
+    if (!this.state.subjectRequests) this.state.subjectRequests = [];
+    if (groupId) {
+      return this.state.subjectRequests.filter(sr => sr.groupId === groupId);
+    }
+    return this.state.subjectRequests;
   }
 
-  getJoinRequests() {
-    return this.state.joinRequests;
+  getRankFromPoints(points) {
+    const pts = Math.max(0, points || 0);
+    const tiers = [
+      { name: 'BRONZE III', min: 0, max: 332 },
+      { name: 'BRONZE II', min: 333, max: 665 },
+      { name: 'BRONZE I', min: 666, max: 999 },
+      { name: 'SILVER III', min: 1000, max: 2332 },
+      { name: 'SILVER II', min: 2333, max: 3665 },
+      { name: 'SILVER I', min: 3666, max: 4999 },
+      { name: 'GOLD III', min: 5000, max: 6665 },
+      { name: 'GOLD II', min: 6666, max: 8332 },
+      { name: 'GOLD I', min: 8333, max: 9999 },
+      { name: 'PLATINUM III', min: 10000, max: 13332 },
+      { name: 'PLATINUM II', min: 13333, max: 16665 },
+      { name: 'PLATINUM I', min: 16666, max: 19999 },
+      { name: 'DIAMOND IV', min: 20000, max: 27499 },
+      { name: 'DIAMOND III', min: 27500, max: 34999 },
+      { name: 'DIAMOND II', min: 35000, max: 42499 },
+      { name: 'DIAMOND I', min: 42500, max: 49999 },
+      { name: 'HEROIC', min: 50000, max: Infinity }
+    ];
+
+    for (let i = 0; i < tiers.length; i++) {
+      const tier = tiers[i];
+      if (pts >= tier.min && pts <= tier.max) {
+        const nextTier = tiers[i + 1];
+        const nextMin = nextTier ? nextTier.min : tier.min;
+        const progressRange = (nextMin - tier.min) || 1;
+        const percent = nextTier ? Math.min(100, Math.floor(((pts - tier.min) / progressRange) * 100)) : 100;
+        return {
+          title: tier.name,
+          currentPoints: pts,
+          nextThreshold: nextMin,
+          percent
+        };
+      }
+    }
+    return { title: 'BRONZE III', currentPoints: pts, nextThreshold: 333, percent: 0 };
+  }
+
+  getUserVote(contentId) {
+    const userId = this.state.currentUser.id;
+    return this.state.votes.find(v => v.contentId === contentId && v.userId === userId);
   }
 
   // Actions
   upvoteContent(contentId, delta) {
     const item = this.state.content.find(c => c.id === contentId);
-    if (!item) return;
+    if (!item) return { error: "NOT_FOUND" };
 
     const userId = this.state.currentUser.id;
+
+    // Self-vote prevention rule
+    if (item.authorId === userId) {
+      return { error: "SELF_VOTE" };
+    }
+
     const existingVote = this.state.votes.find(v => v.contentId === contentId && v.userId === userId);
 
     if (existingVote) {
       if (existingVote.value === delta) {
-        // Toggle off
+        // Toggle off vote
         if (delta === 1) item.upvotes--;
         else item.downvotes--;
         this.state.votes = this.state.votes.filter(v => v.id !== existingVote.id);
@@ -167,18 +218,35 @@ class StoreEngine {
     }
 
     item.score = item.upvotes - item.downvotes;
+    item.pointsReward = Math.max(0, item.score * 10);
 
-    // Award points to author (+10 per net upvote)
-    const author = this.state.users.find(u => u.id === item.authorId);
-    if (author && delta === 1) {
-      author.points += 10;
-      if (author.id === this.state.currentUser.id) {
-        this.state.currentUser.points += 10;
-      }
-    }
+    // Recalculate author's total profile points
+    this.recalculateUserPoints(item.authorId);
 
     this.save();
     this.notifyListeners('upvote');
+    return { success: true };
+  }
+
+  recalculateUserPoints(authorId) {
+    const author = this.state.users.find(u => u.id === authorId) || (this.state.currentUser.id === authorId ? this.state.currentUser : null);
+    if (!author) return;
+
+    const authorPosts = this.state.content.filter(c => c.authorId === authorId);
+    const postBonus = authorPosts.length * 20;
+
+    const netVotePoints = authorPosts.reduce((acc, note) => {
+      const net = (note.upvotes || 0) - (note.downvotes || 0);
+      return acc + net;
+    }, 0);
+
+    const baseSeed = 21000;
+    const totalPoints = Math.max(0, baseSeed + postBonus + netVotePoints * 10);
+    author.points = totalPoints;
+
+    if (authorId === this.state.currentUser.id) {
+      this.state.currentUser.points = totalPoints;
+    }
   }
 
   createContent({ subjectId, tab, type, title, body, externalUrl, tags, categoryLabel }) {
@@ -407,6 +475,161 @@ class StoreEngine {
     this.save();
     this.notifyListeners('report_sent');
   }
+
+  getUnreadNotificationCount() {
+    return this.state.notifications.filter(n => !n.isRead).length;
+  }
+
+  getJoinRequests() {
+    return this.state.joinRequests;
+  }
+
+  // Subject Request Actions
+  requestSubject({ groupId, subjectName, description }) {
+    if (!this.state.subjectRequests) this.state.subjectRequests = [];
+    const user = this.state.currentUser;
+    const newReq = {
+      id: 'sreq_' + Date.now(),
+      groupId,
+      userId: user.id,
+      userName: user.name,
+      userAvatar: user.avatarUrl,
+      subjectName,
+      description: description || '',
+      status: 'pending',
+      requestedAt: new Date().toISOString()
+    };
+    this.state.subjectRequests.unshift(newReq);
+    this.save();
+    this.notifyListeners('subject_request');
+    return newReq;
+  }
+
+  approveSubjectRequest(requestId) {
+    if (!this.state.subjectRequests) return;
+    const req = this.state.subjectRequests.find(r => r.id === requestId);
+    if (!req) return;
+
+    req.status = 'approved';
+    const group = this.getGroupById(req.groupId);
+    const newSubjectId = 'sbj_' + Date.now();
+
+    const newSubject = {
+      id: newSubjectId,
+      groupId: req.groupId,
+      name: req.subjectName,
+      icon: 'book',
+      lessonsCount: 0,
+      quizzesCount: 0,
+      progressPercent: 0,
+      hasNewActivity: true,
+      pendingAssignment: false,
+      examDate: null,
+      tags: []
+    };
+
+    this.state.subjects.push(newSubject);
+    if (group && !group.subjectIds.includes(newSubjectId)) {
+      group.subjectIds.push(newSubjectId);
+    }
+
+    // Notify requester
+    this.state.notifications.unshift({
+      id: 'notif_' + Date.now(),
+      userId: req.userId,
+      groupId: req.groupId,
+      subjectId: newSubjectId,
+      type: 'subject_approved',
+      title: 'Subject Request Approved',
+      message: `Your request for "${req.subjectName}" was approved and added to ${group ? group.name : 'the Hive'}!`,
+      isRead: false,
+      createdAt: new Date().toISOString()
+    });
+
+    this.save();
+    this.notifyListeners('subject_approved');
+  }
+
+  rejectSubjectRequest(requestId, reason) {
+    if (!this.state.subjectRequests) return;
+    const req = this.state.subjectRequests.find(r => r.id === requestId);
+    if (!req) return;
+    req.status = 'rejected';
+    req.rejectionReason = reason || '';
+
+    const group = this.getGroupById(req.groupId);
+    this.state.notifications.unshift({
+      id: 'notif_' + Date.now(),
+      userId: req.userId,
+      groupId: req.groupId,
+      type: 'subject_rejected',
+      title: 'Subject Request Rejected',
+      message: `Your request for "${req.subjectName}" was rejected${reason ? ': ' + reason : ''}.`,
+      isRead: false,
+      createdAt: new Date().toISOString()
+    });
+
+    this.save();
+    this.notifyListeners('subject_rejected');
+  }
+
+  addSubjectDirect({ groupId, subjectName }) {
+    const group = this.getGroupById(groupId);
+    const newSubjectId = 'sbj_' + Date.now();
+    const newSubject = {
+      id: newSubjectId,
+      groupId,
+      name: subjectName,
+      icon: 'book',
+      lessonsCount: 0,
+      quizzesCount: 0,
+      progressPercent: 0,
+      hasNewActivity: true,
+      pendingAssignment: false,
+      examDate: null,
+      tags: []
+    };
+    this.state.subjects.push(newSubject);
+    if (group && !group.subjectIds.includes(newSubjectId)) {
+      group.subjectIds.push(newSubjectId);
+    }
+    this.save();
+    this.notifyListeners('subject_added');
+    return newSubject;
+  }
+
+  // Avatar & Theme Preferences
+  updateUserAvatar(avatarUrl) {
+    this.state.currentUser.avatarUrl = avatarUrl;
+    const user = this.state.users.find(u => u.id === this.state.currentUser.id);
+    if (user) user.avatarUrl = avatarUrl;
+    this.save();
+    this.notifyListeners('avatar_update');
+  }
+
+  setThemePreference(theme) {
+    localStorage.setItem('NOTEHIVE_THEME', theme);
+    document.documentElement.classList.remove('dark', 'dark-hc');
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else if (theme === 'dark-hc') {
+      document.documentElement.classList.add('dark-hc');
+    }
+  }
+
+  getThemePreference() {
+    return localStorage.getItem('NOTEHIVE_THEME') || 'light';
+  }
 }
 
 window.store = new StoreEngine();
+
+// Apply saved theme on load
+(function() {
+  const theme = localStorage.getItem('NOTEHIVE_THEME');
+  if (theme === 'dark') {
+    document.documentElement.classList.add('dark');
+  } else if (theme === 'dark-hc') {
+    document.documentElement.classList.add('dark-hc');
+  }
+})();

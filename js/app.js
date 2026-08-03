@@ -69,9 +69,9 @@ class Router {
     navLinks.forEach(link => {
       const target = link.getAttribute('data-route');
       if (target === this.currentRoute) {
-        link.className = "app-nav-item flex flex-col items-center justify-center gap-0.5 px-3 py-1 border-3 border-black bg-primary-container shadow-none translate-x-1 translate-y-1 transition-all";
+        link.className = "app-nav-item flex flex-col items-center justify-center gap-0.5 px-3 py-1 border-4 border-black bg-primary-container shadow-none translate-x-1 translate-y-1 transition-all";
       } else {
-        link.className = "app-nav-item flex flex-col items-center justify-center gap-0.5 px-3 py-1 border-3 border-black bg-white neo-shadow-sm transition-all";
+        link.className = "app-nav-item flex flex-col items-center justify-center gap-0.5 px-3 py-1 border-4 border-black bg-white neo-shadow-sm transition-all";
       }
     });
   }

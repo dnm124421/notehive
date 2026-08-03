@@ -1,5 +1,5 @@
 /**
- * Admin Moderation Panel: Join Request Approvals & Flagged Content Management
+ * Admin Moderation Panel: Join Request Approvals, Flagged Content, & Subject Requests
  */
 
 window.renderModerationView = function(container) {
@@ -7,6 +7,8 @@ window.renderModerationView = function(container) {
   const pendingRequests = requests.filter(r => r.status === 'pending');
   const reports = window.store.state.reports;
   const pendingReports = reports.filter(r => r.status === 'pending');
+  const subjectRequests = window.store.state.subjectRequests || [];
+  const pendingSubjectRequests = subjectRequests.filter(r => r.status === 'pending');
 
   container.innerHTML = `
     <div class="flex flex-col w-full min-h-screen bg-background pb-32 pt-20 px-4 max-w-md mx-auto">
@@ -16,7 +18,7 @@ window.renderModerationView = function(container) {
           Admin <br/><span class="text-tertiary">Moderation</span>
         </h1>
         <p class="font-body-md text-xs text-on-surface-variant mt-1">
-          Review outsider join requests and manage content quality.
+          Review outsider join requests, subject requests, and manage content quality.
         </p>
       </div>
 
@@ -55,6 +57,59 @@ window.renderModerationView = function(container) {
             </div>
           </div>
         `).join('')}
+      </div>
+
+      <!-- Subject Requests Queue -->
+      <div class="flex flex-col gap-3 mb-8">
+        <div class="flex items-center justify-between border-b-3 border-on-surface pb-1">
+          <h2 class="font-headline-md text-lg uppercase text-on-surface flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm">library_add</span>
+            Subject Requests
+          </h2>
+          <span class="font-label-bold text-xs uppercase bg-tertiary text-white px-2 py-0.5">${pendingSubjectRequests.length} Pending</span>
+        </div>
+
+        ${pendingSubjectRequests.length === 0 ? `
+          <div class="bg-surface-container neo-border p-4 text-center">
+            <p class="font-body-md text-xs text-on-surface-variant italic">No pending subject requests.</p>
+          </div>
+        ` : pendingSubjectRequests.map(req => {
+          const group = window.store.getGroupById(req.groupId);
+          return `
+            <div class="bg-surface-container-lowest neo-border p-4 neo-shadow-sm flex flex-col gap-3">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-tertiary-container neo-border flex items-center justify-center flex-shrink-0">
+                  <span class="material-symbols-outlined text-sm text-tertiary">auto_stories</span>
+                </div>
+                <div class="min-w-0 flex-1">
+                  <h4 class="font-headline-md text-base uppercase truncate leading-tight">${req.subjectName}</h4>
+                  <span class="font-label-sm text-[10px] text-on-surface-variant block">
+                    Requested by @${req.userName} · ${group ? group.name : 'Unknown Group'}
+                  </span>
+                </div>
+              </div>
+
+              ${req.description ? `
+                <p class="font-body-md text-xs bg-surface-container neo-border p-2 italic text-on-surface">
+                  "${req.description}"
+                </p>
+              ` : ''}
+
+              <div class="font-label-sm text-[10px] text-on-surface-variant">
+                ${new Date(req.requestedAt).toLocaleString()}
+              </div>
+
+              <div class="flex gap-2">
+                <button data-sreq-id="${req.id}" class="btn-approve-subject-req flex-1 py-2 bg-secondary-container neo-border font-label-bold text-xs uppercase neo-btn flex items-center justify-center gap-1">
+                  <span class="material-symbols-outlined text-xs">check</span> Approve & Create
+                </button>
+                <button data-sreq-id="${req.id}" class="btn-reject-subject-req flex-1 py-2 bg-error text-white neo-border font-label-bold text-xs uppercase neo-btn flex items-center justify-center gap-1">
+                  <span class="material-symbols-outlined text-xs">close</span> Reject
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('')}
       </div>
 
       <!-- Flagged Content Queue -->
@@ -98,7 +153,7 @@ window.renderModerationView = function(container) {
     </div>
   `;
 
-  // Approve / Reject Handlers
+  // Approve / Reject Join Request Handlers
   container.querySelectorAll('.btn-approve-req').forEach(btn => {
     btn.onclick = (e) => {
       const rid = e.currentTarget.getAttribute('data-req-id');
@@ -113,6 +168,26 @@ window.renderModerationView = function(container) {
       const rid = e.currentTarget.getAttribute('data-req-id');
       window.store.rejectJoinRequest(rid);
       window.showToast("Join request rejected.");
+      window.router.renderCurrentView();
+    };
+  });
+
+  // Subject Request Approve / Reject Handlers
+  container.querySelectorAll('.btn-approve-subject-req').forEach(btn => {
+    btn.onclick = (e) => {
+      const srid = e.currentTarget.getAttribute('data-sreq-id');
+      window.store.approveSubjectRequest(srid);
+      window.showToast("Subject approved & created!");
+      window.router.renderCurrentView();
+    };
+  });
+
+  container.querySelectorAll('.btn-reject-subject-req').forEach(btn => {
+    btn.onclick = (e) => {
+      const srid = e.currentTarget.getAttribute('data-sreq-id');
+      const reason = prompt("Optional rejection reason:");
+      window.store.rejectSubjectRequest(srid, reason || '');
+      window.showToast("Subject request rejected.");
       window.router.renderCurrentView();
     };
   });

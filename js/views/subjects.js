@@ -1,11 +1,14 @@
 /**
  * All Subjects View (verbatim match to all_subjects export)
+ * Features: ADMIN tag, Request Subject, Add Subject (admin-only)
  */
 
 window.renderSubjectsView = function(container, params = {}) {
   const groupId = params.groupId || 'grp_ds';
   const group = window.store.getGroupById(groupId) || window.store.getGroups()[0];
   const subjects = window.store.getSubjects(group.id);
+  const currentUser = window.store.getCurrentUser();
+  const isAdmin = group.adminIds && group.adminIds.includes(currentUser.id);
 
   container.innerHTML = `
     <div class="flex flex-col w-full min-h-screen bg-background pb-28 pt-20">
@@ -16,6 +19,13 @@ window.renderSubjectsView = function(container, params = {}) {
           <div class="absolute -top-3 -right-3 w-14 h-14 bg-primary-container neo-border rounded-full flex items-center justify-center rotate-12 neo-shadow animate-pulse">
             <span class="font-label-bold text-[10px] text-on-surface transform -rotate-12">UPDATE</span>
           </div>
+
+          ${isAdmin ? `
+            <span class="inline-block self-start bg-tertiary text-white neo-border px-2 py-0.5 font-label-bold text-[10px] uppercase mb-1">
+              <span class="material-symbols-outlined text-[10px] align-middle">shield</span> ADMIN
+            </span>
+          ` : ''}
+
           <h2 class="font-headline-lg-mobile text-on-surface uppercase leading-none">
             ${group.name.split(' ')[0]}<br/>
             <span class="text-tertiary">Modules</span>
@@ -23,6 +33,20 @@ window.renderSubjectsView = function(container, params = {}) {
           <p class="font-body-md text-xs text-on-surface-variant max-w-[280px]">
             Dive into the core subjects. High voltage learning. No filler.
           </p>
+        </div>
+
+        <!-- Action Buttons: Request / Add Subject -->
+        <div class="flex gap-2">
+          <button id="btn-request-subject" class="flex-1 py-3 bg-tertiary-container neo-border neo-shadow neo-btn font-label-bold uppercase text-xs flex items-center justify-center gap-1">
+            <span class="material-symbols-outlined text-sm">add_circle</span>
+            Request Subject
+          </button>
+          ${isAdmin ? `
+            <button id="btn-add-subject-direct" class="flex-1 py-3 bg-secondary-container neo-border neo-shadow neo-btn font-label-bold uppercase text-xs flex items-center justify-center gap-1">
+              <span class="material-symbols-outlined text-sm">library_add</span>
+              Add Subject
+            </button>
+          ` : ''}
         </div>
 
         <!-- Checkered Divider -->
@@ -93,4 +117,76 @@ window.renderSubjectsView = function(container, params = {}) {
       window.router.navigate('subjectDetail', { subjectId: sid, tab: 'notes' });
     });
   });
+
+  // Request Subject Modal
+  const reqBtn = container.querySelector('#btn-request-subject');
+  if (reqBtn) {
+    reqBtn.addEventListener('click', () => {
+      window.renderRequestSubjectModal(groupId);
+    });
+  }
+
+  // Admin Direct Add Subject
+  const addBtn = container.querySelector('#btn-add-subject-direct');
+  if (addBtn) {
+    addBtn.addEventListener('click', () => {
+      const name = prompt("Enter new subject name (e.g. 'Time Series Analysis'):");
+      if (name && name.trim()) {
+        const newSubject = window.store.addSubjectDirect({ groupId, subjectName: name.trim() });
+        window.showToast(`Subject "${newSubject.name}" added!`);
+        window.router.renderCurrentView();
+      }
+    });
+  }
+};
+
+// Request Subject Modal
+window.renderRequestSubjectModal = function(groupId) {
+  const modalDiv = document.createElement('div');
+  modalDiv.className = "fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4";
+  modalDiv.innerHTML = `
+    <div class="bg-surface neo-border p-6 neo-shadow-lg w-full max-w-sm flex flex-col gap-4 relative">
+      <button id="close-req-subject-modal" class="absolute top-3 right-3 w-8 h-8 bg-error text-white neo-border flex items-center justify-center font-bold">✕</button>
+      
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-lg text-tertiary">library_add</span>
+        <h2 class="font-headline-md text-xl uppercase">Request Subject</h2>
+      </div>
+      
+      <p class="font-body-md text-xs text-on-surface-variant">
+        Submit a request for a new subject to be added. Group admins will review your request.
+      </p>
+
+      <div class="flex flex-col gap-1">
+        <label class="font-label-bold text-xs uppercase">Subject Name</label>
+        <input id="req-subject-name" class="neo-input" placeholder="e.g. Time Series Analysis" />
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label class="font-label-bold text-xs uppercase">Description / Reason</label>
+        <textarea id="req-subject-desc" class="neo-input h-20" placeholder="Why should this subject be added?"></textarea>
+      </div>
+
+      <button id="btn-submit-req-subject" class="py-3 bg-tertiary text-white neo-border neo-shadow neo-btn font-label-bold uppercase text-sm mt-1">
+        Submit Request
+      </button>
+    </div>
+  `;
+
+  document.body.appendChild(modalDiv);
+  document.getElementById('close-req-subject-modal').onclick = () => modalDiv.remove();
+
+  document.getElementById('btn-submit-req-subject').onclick = () => {
+    const name = document.getElementById('req-subject-name').value.trim();
+    const desc = document.getElementById('req-subject-desc').value.trim();
+
+    if (!name) {
+      alert("Please enter a subject name!");
+      return;
+    }
+
+    window.store.requestSubject({ groupId, subjectName: name, description: desc });
+    modalDiv.remove();
+    window.showToast("Subject request submitted to admin!");
+  };
 };

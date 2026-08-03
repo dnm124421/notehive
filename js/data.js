@@ -522,5 +522,28 @@ window.SEED_DATA = {
       status: "pending",
       createdAt: "2026-08-02T15:30:00Z"
     }
+  ],
+
+  subjectRequests: [
+    {
+      id: "sreq_1",
+      groupId: "grp_ds",
+      userId: "user_zane",
+      userName: "Zane.X",
+      userAvatar: "https://lh3.googleusercontent.com/aida-public/AB6AXuARo7NRwfX-W2Rp6vXmShKvuX2Mi2Ma5aQ0nkuZDhJoiI_DM0FITQO50WltQJjwlnQe2jRnd2C6NYBNdLCbOFcsqVql9T_4iJs8uOmcoSJsRbo7EaSa0BplOTw7TBcTLOg-4pLuYxje29NB5_aRkWH7bgxcF5PCiH-zN5OpUfn1K4qKJHWen6mZGlyD9lxzofKy8EcZy-5bkcvwoToSwkUAzmLofY2efb1bH9tV9JauvNlCHu0WqWSN",
+      subjectName: "Time Series Forecasting",
+      description: "Need a dedicated module for ARIMA, Prophet, and LSTM time series preprocessing notes.",
+      status: "pending",
+      requestedAt: "2026-08-02T16:00:00Z"
+    }
   ]
 };
+
+window.AVATAR_PRESETS = [
+  { id: 'av_1', name: 'Riot Bot', url: 'https://api.dicebear.com/7.x/bottts/svg?seed=RiotGrrl&backgroundColor=ffe600' },
+  { id: 'av_2', name: 'Cyber Punk', url: 'https://api.dicebear.com/7.x/bottts/svg?seed=Ninja&backgroundColor=41fe8e' },
+  { id: 'av_3', name: 'Neon Nomad', url: 'https://api.dicebear.com/7.x/bottts/svg?seed=Neon&backgroundColor=ffd9f9' },
+  { id: 'av_4', name: 'Code Alchemist', url: 'https://api.dicebear.com/7.x/bottts/svg?seed=Alchemist&backgroundColor=00ffff' },
+  { id: 'av_5', name: 'Data Sensei', url: 'https://api.dicebear.com/7.x/bottts/svg?seed=Sensei&backgroundColor=ffdad6' },
+  { id: 'av_6', name: 'Ink Ghost', url: 'https://api.dicebear.com/7.x/bottts/svg?seed=Ghost&backgroundColor=eeeeee' }
+];

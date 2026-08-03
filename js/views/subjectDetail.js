@@ -27,6 +27,12 @@ window.renderSubjectDetailView = function(container, params = {}) {
     );
   }
 
+  // Helper: get user's vote on an item (returns 1, -1, or 0)
+  const getUserVote = (contentId) => {
+    const vote = window.store.state.votes.find(v => v.contentId === contentId && v.userId === currentUser.id);
+    return vote ? vote.value : 0;
+  };
+
   const top3 = allContent.slice(0, 3);
   const stash = allContent.slice(3);
 
@@ -216,7 +222,7 @@ window.renderSubjectDetailView = function(container, params = {}) {
                     <p class="font-label-sm text-label-sm text-on-surface-variant truncate mt-1 italic">by ${item.authorName}</p>
                   </div>
                   <div class="flex flex-col items-center shrink-0 bg-primary-container p-2 neo-border">
-                    <button data-content-id="${item.id}" data-delta="1" class="btn-vote text-on-surface">
+                    <button data-content-id="${item.id}" data-delta="1" class="btn-vote text-on-surface ${getUserVote(item.id) === 1 ? 'bg-secondary text-white' : ''}">
                       <span class="material-symbols-outlined text-[24px] font-black">keyboard_arrow_up</span>
                     </button>
                     <span class="font-label-bold text-label-bold text-on-surface">${item.score}</span>
@@ -278,11 +284,11 @@ window.renderSubjectDetailView = function(container, params = {}) {
 
                       <div class="flex items-center justify-between border-t-2 border-on-surface pt-2 border-dashed relative z-10">
                         <div class="flex items-center gap-2">
-                          <button data-content-id="${item.id}" data-delta="1" class="btn-vote w-8 h-8 bg-surface neo-border neo-shadow-sm neo-btn flex items-center justify-center">
+                          <button data-content-id="${item.id}" data-delta="1" class="btn-vote w-8 h-8 ${getUserVote(item.id) === 1 ? 'bg-secondary text-white' : 'bg-surface'} neo-border neo-shadow-sm neo-btn flex items-center justify-center">
                             <span class="material-symbols-outlined text-sm">arrow_upward</span>
                           </button>
                           <span class="font-label-bold text-sm text-on-surface">${item.score}</span>
-                          <button data-content-id="${item.id}" data-delta="-1" class="btn-vote w-8 h-8 bg-surface neo-border neo-shadow-sm neo-btn flex items-center justify-center">
+                          <button data-content-id="${item.id}" data-delta="-1" class="btn-vote w-8 h-8 ${getUserVote(item.id) === -1 ? 'bg-error text-white' : 'bg-surface'} neo-border neo-shadow-sm neo-btn flex items-center justify-center">
                             <span class="material-symbols-outlined text-sm">arrow_downward</span>
                           </button>
                         </div>
@@ -317,7 +323,7 @@ window.renderSubjectDetailView = function(container, params = {}) {
                   <p class="font-body-md text-[10px] text-on-surface-variant truncate">By @${item.authorName}</p>
                 </div>
                 <div class="flex items-center gap-2">
-                  <button data-content-id="${item.id}" data-delta="1" class="btn-vote w-7 h-7 bg-surface neo-border neo-shadow-sm neo-btn flex items-center justify-center">
+                  <button data-content-id="${item.id}" data-delta="1" class="btn-vote w-7 h-7 ${getUserVote(item.id) === 1 ? 'bg-secondary text-white' : 'bg-surface'} neo-border neo-shadow-sm neo-btn flex items-center justify-center">
                     <span class="material-symbols-outlined text-xs">arrow_upward</span>
                   </button>
                   <span class="font-label-bold text-xs">${item.score}</span>
@@ -355,12 +361,18 @@ window.renderSubjectDetailView = function(container, params = {}) {
     });
   });
 
-  // Voting handler
+  // Voting handler with self-vote prevention
   container.querySelectorAll('.btn-vote').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       const cid = e.currentTarget.getAttribute('data-content-id');
       const delta = parseInt(e.currentTarget.getAttribute('data-delta'));
+      // Self-vote prevention
+      const contentItem = window.store.state.content.find(c => c.id === cid);
+      if (contentItem && contentItem.authorId === currentUser.id) {
+        window.showToast("You can't vote on your own content!");
+        return;
+      }
       window.store.upvoteContent(cid, delta);
       window.router.renderCurrentView();
     });

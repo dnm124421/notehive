@@ -1,11 +1,22 @@
 /**
- * Profile View: Badges, Offline Saved Notes, Preferences, and Admin Access
+ * Profile View: Avatar Selector, Rank Display, Badges, Offline Saved Notes, 
+ * 3-State Theme Toggle, and Admin Access
  */
 
 window.renderProfileView = function(container) {
   const currentUser = window.store.getCurrentUser();
   const offlineNotes = window.store.state.content.filter(c => currentUser.savedOfflineNoteIds.includes(c.id));
-  const isDarkMode = document.documentElement.classList.contains('dark');
+  const currentTheme = window.store.getThemePreference();
+
+  // Calculate rank from leaderboard
+  const leaderboard = window.store.getLeaderboard();
+  const userRank = leaderboard.findIndex(u => u.id === currentUser.id) + 1;
+  const rankTitle = userRank === 1 ? 'Hive Queen' : userRank <= 3 ? 'Elite Contributor' : userRank <= 6 ? 'Rising Star' : 'Active Member';
+
+  // Pending subject+join requests count
+  const pendingJoins = (window.store.getJoinRequests() || []).filter(r => r.status === 'pending').length;
+  const pendingSubjects = (window.store.state.subjectRequests || []).filter(r => r.status === 'pending').length;
+  const totalPending = pendingJoins + pendingSubjects;
 
   container.innerHTML = `
     <div class="flex flex-col w-full min-h-screen bg-background pb-32 pt-20 px-4 max-w-md mx-auto">
@@ -15,15 +26,22 @@ window.renderProfileView = function(container) {
           ${currentUser.role || 'Member'}
         </div>
 
+        <!-- Avatar with change button -->
         <div class="relative mb-3">
-          <img class="w-20 h-20 object-cover border-4 border-black neo-shadow bg-white" src="${currentUser.avatarUrl}" />
-          <div class="absolute -bottom-2 -right-2 bg-secondary-container neo-border p-1">
-            <span class="material-symbols-outlined text-sm text-secondary">verified</span>
-          </div>
+          <img id="profile-avatar-img" class="w-20 h-20 object-cover border-4 border-black neo-shadow bg-white" src="${currentUser.avatarUrl}" />
+          <button id="btn-change-avatar" class="absolute -bottom-2 -right-2 bg-secondary-container neo-border p-1 cursor-pointer active:translate-x-0.5 active:translate-y-0.5">
+            <span class="material-symbols-outlined text-sm text-secondary">edit</span>
+          </button>
         </div>
 
         <h1 class="font-headline-md text-2xl uppercase text-on-surface leading-none mb-1">${currentUser.name}</h1>
-        <span class="font-label-bold text-xs uppercase px-2 py-0.5 bg-surface neo-border mb-3">${currentUser.department}</span>
+        <span class="font-label-bold text-xs uppercase px-2 py-0.5 bg-surface neo-border mb-2">${currentUser.department}</span>
+
+        <!-- Rank Badge -->
+        <div class="flex items-center gap-1 bg-tertiary text-white neo-border px-3 py-1 mb-3">
+          <span class="material-symbols-outlined text-sm">military_tech</span>
+          <span class="font-label-bold text-xs uppercase">#${userRank} · ${rankTitle}</span>
+        </div>
 
         <div class="flex gap-4 border-t-3 border-on-surface pt-3 w-full justify-center border-dashed">
           <div>
@@ -47,7 +65,7 @@ window.renderProfileView = function(container) {
       ${currentUser.role === 'Admin' ? `
         <button id="btn-open-moderation" class="w-full py-3 bg-tertiary-container neo-border neo-shadow neo-btn font-label-bold uppercase text-xs flex items-center justify-center gap-2 mb-6">
           <span class="material-symbols-outlined text-sm text-tertiary">admin_panel_settings</span>
-          Admin Moderation & Join Queue (${window.store.getJoinRequests().filter(r => r.status === 'pending').length})
+          Admin Moderation & Queue (${totalPending})
         </button>
       ` : ''}
 
@@ -100,14 +118,27 @@ window.renderProfileView = function(container) {
           <h2 class="font-headline-md text-lg uppercase text-on-surface">App Settings</h2>
         </div>
 
-        <div class="bg-surface neo-border p-4 neo-shadow-sm flex items-center justify-between">
+        <!-- 3-State Theme Toggle -->
+        <div class="bg-surface neo-border p-4 neo-shadow-sm flex flex-col gap-3">
           <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-lg">dark_mode</span>
-            <span class="font-label-bold text-xs uppercase">High-Contrast Dark Mode</span>
+            <span class="material-symbols-outlined text-lg">palette</span>
+            <span class="font-label-bold text-xs uppercase">Theme Mode</span>
           </div>
-          <button id="btn-toggle-dark-mode" class="w-12 h-6 neo-border ${isDarkMode ? 'bg-primary-container' : 'bg-surface-container'} relative transition-colors">
-            <div class="w-4 h-4 bg-black absolute top-0.5 ${isDarkMode ? 'right-1' : 'left-1'} transition-all"></div>
-          </button>
+
+          <div class="flex gap-2">
+            <button data-theme="light" class="btn-theme-select flex-1 py-2 neo-border font-label-bold text-xs uppercase text-center transition-all ${currentTheme === 'light' ? 'bg-primary-container neo-shadow translate-x-0.5 -translate-y-0.5' : 'bg-surface-container'}">
+              <span class="material-symbols-outlined text-sm block mx-auto mb-0.5">light_mode</span>
+              Light
+            </button>
+            <button data-theme="dark" class="btn-theme-select flex-1 py-2 neo-border font-label-bold text-xs uppercase text-center transition-all ${currentTheme === 'dark' ? 'bg-primary-container neo-shadow translate-x-0.5 -translate-y-0.5' : 'bg-surface-container'}">
+              <span class="material-symbols-outlined text-sm block mx-auto mb-0.5">dark_mode</span>
+              Dark
+            </button>
+            <button data-theme="dark-hc" class="btn-theme-select flex-1 py-2 neo-border font-label-bold text-xs uppercase text-center transition-all ${currentTheme === 'dark-hc' ? 'bg-primary-container neo-shadow translate-x-0.5 -translate-y-0.5' : 'bg-surface-container'}">
+              <span class="material-symbols-outlined text-sm block mx-auto mb-0.5">contrast</span>
+              High Con.
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -123,12 +154,21 @@ window.renderProfileView = function(container) {
     };
   });
 
-  // Dark Mode Toggle
-  const darkBtn = container.querySelector('#btn-toggle-dark-mode');
-  if (darkBtn) {
-    darkBtn.onclick = () => {
-      document.documentElement.classList.toggle('dark');
+  // Theme Toggle (3-state: light / dark / dark-hc)
+  container.querySelectorAll('.btn-theme-select').forEach(btn => {
+    btn.onclick = (e) => {
+      const theme = e.currentTarget.getAttribute('data-theme');
+      window.store.setThemePreference(theme);
+      window.showToast(`Theme set to ${theme === 'dark-hc' ? 'High Contrast Dark' : theme.charAt(0).toUpperCase() + theme.slice(1)}!`);
       window.router.renderCurrentView();
+    };
+  });
+
+  // Open Avatar Selector
+  const avatarBtn = container.querySelector('#btn-change-avatar');
+  if (avatarBtn) {
+    avatarBtn.onclick = () => {
+      window.renderAvatarSelectorModal();
     };
   }
 
@@ -139,4 +179,73 @@ window.renderProfileView = function(container) {
       window.router.navigate('moderation');
     };
   }
+};
+
+// Avatar Selector Modal
+window.renderAvatarSelectorModal = function() {
+  const presets = window.AVATAR_PRESETS || [];
+  const currentUser = window.store.getCurrentUser();
+
+  const modalDiv = document.createElement('div');
+  modalDiv.className = "fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4";
+  modalDiv.innerHTML = `
+    <div class="bg-surface neo-border p-6 neo-shadow-lg w-full max-w-sm flex flex-col gap-4 relative">
+      <button id="close-avatar-modal" class="absolute top-3 right-3 w-8 h-8 bg-error text-white neo-border flex items-center justify-center font-bold">✕</button>
+      
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-lg text-tertiary">face</span>
+        <h2 class="font-headline-md text-xl uppercase">Choose Avatar</h2>
+      </div>
+
+      <p class="font-body-md text-xs text-on-surface-variant">
+        Select a preset avatar for your profile. Your identity, your vibe.
+      </p>
+
+      <div class="grid grid-cols-3 gap-3">
+        ${presets.map(av => `
+          <button data-avatar-url="${av.url}" class="btn-select-avatar flex flex-col items-center gap-1 p-2 neo-border ${currentUser.avatarUrl === av.url ? 'bg-primary-container neo-shadow' : 'bg-surface-container'} cursor-pointer active:translate-x-0.5 active:translate-y-0.5 transition-all">
+            <img class="w-14 h-14 object-cover border-2 border-black bg-white" src="${av.url}" />
+            <span class="font-label-bold text-[9px] uppercase truncate w-full text-center">${av.name}</span>
+          </button>
+        `).join('')}
+      </div>
+
+      <div class="border-t-2 border-on-surface pt-3 border-dashed flex flex-col gap-2">
+        <label class="font-label-bold text-xs uppercase">Custom URL</label>
+        <div class="flex gap-2">
+          <input id="custom-avatar-url" class="neo-input flex-1 text-xs" placeholder="https://example.com/avatar.jpg" />
+          <button id="btn-apply-custom-avatar" class="px-3 py-2 bg-primary-fixed neo-border neo-shadow neo-btn font-label-bold text-xs uppercase">
+            Apply
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modalDiv);
+  document.getElementById('close-avatar-modal').onclick = () => modalDiv.remove();
+
+  // Preset avatar select
+  modalDiv.querySelectorAll('.btn-select-avatar').forEach(btn => {
+    btn.onclick = (e) => {
+      const url = e.currentTarget.getAttribute('data-avatar-url');
+      window.store.updateUserAvatar(url);
+      modalDiv.remove();
+      window.showToast("Avatar updated!");
+      window.router.renderCurrentView();
+    };
+  });
+
+  // Custom URL apply
+  document.getElementById('btn-apply-custom-avatar').onclick = () => {
+    const url = document.getElementById('custom-avatar-url').value.trim();
+    if (url) {
+      window.store.updateUserAvatar(url);
+      modalDiv.remove();
+      window.showToast("Custom avatar applied!");
+      window.router.renderCurrentView();
+    } else {
+      alert("Enter a valid image URL!");
+    }
+  };
 };
