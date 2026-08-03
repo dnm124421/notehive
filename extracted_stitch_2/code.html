@@ -1,0 +1,303 @@
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:wght@700;800;900&amp;family=Work+Sans:wght@400;600;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container": "#eeeeee",
+            "secondary-container": "#01FF77", // Vivid electric green
+            "on-primary-fixed": "#000000",
+            "error-container": "#FF0055",
+            "on-surface-variant": "#000000",
+            "on-background": "#000000",
+            "surface-bright": "#FFFFFF",
+            "on-primary-fixed-variant": "#000000",
+            "on-tertiary-fixed": "#000000",
+            "on-primary": "#000000",
+            "surface-tint": "#FFFF00",
+            "primary-container": "#FFFF00", // Saturated neon yellow
+            "on-tertiary-fixed-variant": "#000000",
+            "surface-dim": "#cccccc",
+            "tertiary-fixed-dim": "#FF00FF", // Vivid pink
+            "surface-container-low": "#f3f3f3",
+            "on-secondary-fixed": "#000000",
+            "outline-variant": "#000000",
+            "on-surface": "#000000",
+            "surface-container-high": "#e8e8e8",
+            "surface": "#FFFFFF",
+            "surface-container-highest": "#e2e2e2",
+            "tertiary-container": "#FF00FF", // Vivid pink
+            "on-tertiary": "#FFFFFF",
+            "on-secondary": "#000000",
+            "background": "#FFFFFF",
+            "primary-fixed": "#FFFF00",
+            "inverse-primary": "#FFFF00",
+            "on-secondary-container": "#000000",
+            "on-secondary-fixed-variant": "#000000",
+            "primary-fixed-dim": "#FFFF00",
+            "inverse-surface": "#000000",
+            "primary": "#FFFF00",
+            "tertiary": "#FF00FF",
+            "outline": "#000000",
+            "secondary-fixed-dim": "#01FF77",
+            "inverse-on-surface": "#FFFFFF",
+            "secondary": "#01FF77",
+            "on-error": "#ffffff",
+            "on-tertiary-container": "#000000",
+            "tertiary-fixed": "#FF00FF",
+            "on-error-container": "#ffffff",
+            "on-primary-container": "#000000",
+            "surface-container-lowest": "#ffffff",
+            "secondary-fixed": "#01FF77",
+            "error": "#FF0055",
+            "surface-variant": "#00FFFF" // Bold cyan
+          },
+          "borderRadius": {
+            "DEFAULT": "0px", // Sharp corners for radical poster look
+            "lg": "0px",
+            "xl": "0px",
+            "full": "9999px"
+          },
+          "spacing": {
+            "margin-mobile": "16px",
+            "border-width": "4px", // Thicker borders
+            "margin-desktop": "48px",
+            "gutter": "24px",
+            "base": "8px",
+            "shadow-offset": "8px" // Heavier shadows
+          },
+          "fontFamily": {
+            "headline-lg": ["Anybody"],
+            "display-xl": ["Anybody"],
+            "label-sm": ["Work Sans"],
+            "label-bold": ["Anybody"],
+            "headline-lg-mobile": ["Anybody"],
+            "body-lg": ["Work Sans"],
+            "headline-md": ["Anybody"],
+            "body-md": ["Work Sans"]
+          },
+          "fontSize": {
+            "headline-lg": ["48px", { "lineHeight": "48px", "letterSpacing": "-0.04em", "fontWeight": "900" }],
+            "display-xl": ["80px", { "lineHeight": "80px", "letterSpacing": "-0.06em", "fontWeight": "900" }],
+            "label-sm": ["12px", { "lineHeight": "14px", "fontWeight": "700" }],
+            "label-bold": ["14px", { "lineHeight": "16px", "fontWeight": "900" }],
+            "headline-lg-mobile": ["42px", { "lineHeight": "42px", "letterSpacing": "-0.04em", "fontWeight": "900" }],
+            "body-lg": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "headline-md": ["32px", { "lineHeight": "32px", "fontWeight": "900" }],
+            "body-md": ["16px", { "lineHeight": "20px", "fontWeight": "600" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    @layer base {
+      body { overscroll-behavior: none; }
+      .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+      .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+    }
+    .neo-border { border: 4px solid #000000; }
+    .neo-shadow { box-shadow: 8px 8px 0px 0px #000000; }
+    .neo-shadow-sm { box-shadow: 4px 4px 0px 0px #000000; }
+    
+    /* Radical Poster Patterns */
+    .pattern-dots {
+      background-image: radial-gradient(#000 1px, transparent 0);
+      background-size: 8px 8px;
+    }
+    .pattern-stripes {
+      background: repeating-linear-gradient(45deg, #000, #000 4px, transparent 4px, transparent 8px);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background font-body-md text-on-background min-h-screen">
+<header class="fixed top-0 w-full z-50 bg-white pt-safe neo-border border-t-0 border-l-0 border-r-0">
+<div class="h-20 px-margin-mobile flex items-center gap-base">
+<button class="w-12 h-12 flex items-center justify-center neo-border bg-primary-container neo-shadow-sm active:translate-x-1 active:translate-y-1 active:shadow-none transition-all" onclick="history.back()">
+<span class="material-symbols-outlined text-on-surface font-black">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md uppercase text-on-surface tracking-tighter">Hive Details</h1>
+</div>
+</header>
+<main class="pt-20 min-h-screen bg-background">
+<div class="flex flex-col w-full px-margin-mobile pb-24 gap-8">
+<!-- Checkered Divider Top -->
+<div class="w-full h-10 bg-on-background bg-[url('data:image/svg+xml;utf8,&lt;svg width=%2224%22 height=%2224%22 viewbox=%220 0 24 24%22 xmlns=%22http://www.w3.org/2000/svg%22&gt;&lt;rect fill=%22white%22 height=%2212%22 width=%2212%22 x=%220%22 y=%220%22/&gt;&lt;rect fill=%22white%22 height=%2212%22 width=%2212%22 x=%2212%22 y=%2212%22/&gt;&lt;/svg&gt;')] bg-repeat neo-border mt-6"></div>
+<!-- Intro Block -->
+<div class="neo-border bg-primary-container p-6 relative neo-shadow">
+<div class="absolute -top-4 -right-4 w-10 h-10 bg-on-background text-primary-container flex items-center justify-center font-headline-md rotate-12 neo-border">
+          !
+        </div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-primary-container uppercase leading-[0.9] mb-4 tracking-tighter italic">
+          WATCH &amp;<br/>LEARN
+        </h2>
+<p class="font-body-lg text-body-lg text-on-primary-container font-black leading-tight">
+          CURATED TUTORIALS AND DEEP DIVES FOR DATA PREPROCESSING. UPVOTE THE ONES THAT SAVED YOUR LIFE.
+        </p>
+</div>
+<!-- Pinned Section - HIGH IMPACT YELLOW BLOCK -->
+<section class="flex flex-col gap-6 mt-2 bg-primary-container p-4 neo-border neo-shadow">
+<div class="inline-flex items-center gap-3 bg-on-background px-6 py-2 self-start neo-border -ml-8 -rotate-2">
+<span class="material-symbols-outlined text-primary-container text-[24px] fill-1">push_pin</span>
+<span class="font-label-bold text-[18px] text-on-primary uppercase tracking-tighter">Top 3 Pinned</span>
+</div>
+<!-- Pinned Card 1 -->
+<article class="neo-border bg-white flex flex-col neo-shadow group relative">
+<!-- Stamp -->
+<div class="absolute -top-4 -left-4 bg-tertiary px-3 py-1 neo-border z-10 -rotate-6 neo-shadow-sm">
+<span class="font-label-bold text-label-bold text-on-tertiary uppercase italic">#1 Pick</span>
+</div>
+<div class="h-52 w-full border-b-[4px] border-on-background relative overflow-hidden" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDSkApLlzseeAtgJ-ijN_b9NRQ2tN2JYCIOENESGN1BBHYmKjp-vRmyWck2CsSprDXzGlPrVcC06RlxCTAt9e_487kFX50kidvx-rCAg-5p1sAxJPdGq6ikfU9Uf7OHGqzwmsscl5TRrfGazpKyh78fDMlBcFh8wYkzxn7QYvMYFmgkYrDIEY-LlG_IzVnG_dHsYlubvkQjynUrAmrkSHVBKMoy3xNnht5X47TR0UgNQjC4VTeJu51Z'); background-size: cover; background-position: center;">
+<div class="absolute bottom-3 right-3 bg-on-background px-3 py-1 neo-border">
+<span class="font-label-bold text-label-sm text-on-primary">14:22</span>
+</div>
+</div>
+<div class="p-5 flex flex-col gap-3 bg-white">
+<h3 class="font-headline-md text-[24px] leading-none text-on-surface uppercase line-clamp-2 tracking-tighter">Mastering Pandas: Handling Missing Data Like a Boss</h3>
+<div class="flex items-center justify-between mt-2">
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 bg-secondary-fixed neo-border flex items-center justify-center overflow-hidden">
+<span class="font-label-bold text-label-bold text-on-secondary-fixed">DS</span>
+</div>
+<span class="font-label-bold text-label-bold text-on-surface uppercase">DataSensei</span>
+</div>
+<button class="flex items-center gap-1 bg-secondary-container px-4 py-2 neo-border neo-shadow-sm active:translate-y-1 active:shadow-none transition-all">
+<span class="material-symbols-outlined text-[20px] font-black">arrow_upward</span>
+<span class="font-label-bold text-[16px]">1.2k</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Pinned Card 2 -->
+<article class="neo-border bg-tertiary-container flex flex-col neo-shadow relative">
+<div class="absolute top-3 right-3 bg-on-background w-4 h-4"></div>
+<div class="h-44 w-full border-b-[4px] border-on-background relative overflow-hidden" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuClXdpyZt5bzyN2iDe475caBikk0_ri4pvADOCiwumv5ty13fAVua0it16jArr_ojqVASzO_oUcr5Kc4ZTGZAr9MYyzz9x0H16p1aTllHgNSnNpmTUUZc8TT-FPCJqU4-saWMOET4-BeBH-57OVgXnJIHywOGIaM5OodyHBGE04YVyCHj-YrlUiChktbL5v7h-4ci0VspiOW7D2X6g9gt74nEie6conrOsjpoGVrhHxQTO4HZudkNu0'); background-size: cover; background-position: center;">
+<div class="absolute bottom-3 right-3 bg-on-background px-3 py-1 neo-border">
+<span class="font-label-bold text-label-sm text-on-primary">28:15</span>
+</div>
+</div>
+<div class="p-5 flex flex-col gap-3">
+<h3 class="font-headline-md text-[24px] leading-none text-on-primary-container uppercase line-clamp-2 tracking-tighter">Feature Engineering Secrets They Don't Tell You</h3>
+<div class="flex items-center justify-between mt-2">
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 bg-surface-variant neo-border flex items-center justify-center overflow-hidden">
+<span class="font-label-bold text-label-bold text-on-surface-variant">ML</span>
+</div>
+<span class="font-label-bold text-label-bold text-on-primary-container uppercase">ML_Punk</span>
+</div>
+<button class="flex items-center gap-1 bg-white px-4 py-2 neo-border neo-shadow-sm active:translate-y-1 active:shadow-none transition-all">
+<span class="material-symbols-outlined text-[20px] font-black">arrow_upward</span>
+<span class="font-label-bold text-[16px]">842</span>
+</button>
+</div>
+</div>
+</article>
+<!-- Pinned Card 3 -->
+<article class="neo-border bg-surface-variant flex flex-col neo-shadow relative">
+<div class="absolute top-3 left-3 bg-on-background w-4 h-4"></div>
+<div class="h-44 w-full border-b-[4px] border-on-background relative overflow-hidden" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDldOJ-DLEGYgzWpwATGU7zMQPAJ_eSoGrgtYXdNNTx5kS6PFROYCODnbWhx5T_jokrJprxGAkWWOn9l9L2Cp3FTUgfINGD-gfPQ3dU_kIdAjk5oVeQLM5zsUj0QjlJ081qQqKkoYcjMfrHWv93sqwrL6rHE4RO6eX-D744PuVbE2hASU3EhI9SUy1qMyCMZ_pCS2M5rYHTOyBxjkGTBH-U17Bb3vIhkbbbayLUVb1qpriu6GEUvXxg'); background-size: cover; background-position: center;">
+<div class="absolute bottom-3 right-3 bg-on-background px-3 py-1 neo-border">
+<span class="font-label-bold text-label-sm text-on-primary">09:45</span>
+</div>
+</div>
+<div class="p-5 flex flex-col gap-3">
+<h3 class="font-headline-md text-[24px] leading-none text-on-background uppercase line-clamp-2 tracking-tighter">Normalization vs Standardization - Stop Guessing</h3>
+<div class="flex items-center justify-between mt-2">
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 bg-tertiary-container neo-border flex items-center justify-center overflow-hidden">
+<span class="font-label-bold text-label-bold text-on-tertiary-container">CA</span>
+</div>
+<span class="font-label-bold text-label-bold text-on-background uppercase">CodeAlchemist</span>
+</div>
+<button class="flex items-center gap-1 bg-primary-container px-4 py-2 neo-border neo-shadow-sm active:translate-y-1 active:shadow-none transition-all">
+<span class="material-symbols-outlined text-[20px] font-black">arrow_upward</span>
+<span class="font-label-bold text-[16px]">756</span>
+</button>
+</div>
+</div>
+</article>
+</section>
+<!-- Divider -->
+<div class="w-full h-2 bg-black my-2"></div>
+<!-- Community Feed -->
+<section class="flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md uppercase text-on-surface tracking-tighter italic">Fresh Drops</h2>
+<button class="w-12 h-12 bg-on-background text-primary-container flex items-center justify-center neo-border rounded-full neo-shadow-sm hover:bg-tertiary hover:text-white transition-all active:translate-y-1 active:shadow-none">
+<span class="material-symbols-outlined font-black">filter_list</span>
+</button>
+</div>
+<!-- Feed Item 1 -->
+<div class="flex gap-4 p-4 bg-white neo-border neo-shadow-sm items-center">
+<div class="w-28 h-20 shrink-0 bg-surface-variant neo-border relative overflow-hidden" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAKdhMsoZsiPF4TKXXyj-XU56IIOR81KNWd_Rl6s_yQJP5HCBqdrmyNu5dd1aHQsSxZg8jQ3WkJo-YG61iPpakfJvZKx7DyPCqsU58GPDf_kQ991mFXjYeIsxcrr9YMNGcWx4JshsxiqO1VSBUps3g43Dbo_AyEvmZG6kkQssYPCuf2BNR1iq0oHFYvzrhx5tWfKTzEmIBEELlaCPlzAv-6emPdt7F6lKHG-TERDA4YbQySxHTzkb3b'); background-size: cover; background-position: center;">
+<div class="absolute bottom-1 right-1 bg-on-background px-1 border border-white">
+<span class="text-[10px] text-on-primary font-black uppercase">05:12</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-label-bold text-[16px] leading-tight text-on-surface truncate uppercase tracking-tighter">Outlier Detection in 5 mins</h4>
+<p class="font-label-sm text-label-sm text-on-surface-variant truncate mt-1 italic">by StatNinja</p>
+</div>
+<div class="flex flex-col items-center shrink-0 bg-primary-container p-2 neo-border">
+<button class="text-on-surface">
+<span class="material-symbols-outlined text-[24px] font-black">keyboard_arrow_up</span>
+</button>
+<span class="font-label-bold text-label-bold text-on-surface">214</span>
+</div>
+</div>
+<!-- Feed Item 2 -->
+<div class="flex gap-4 p-4 bg-tertiary-container neo-border neo-shadow-sm items-center">
+<div class="w-28 h-20 shrink-0 bg-surface-variant neo-border relative overflow-hidden" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD6zKskjpaHe0yP0GkxXXqrUbeAiKr1iTExY5VCkM8tnD2feaezbM3p-xDYkMgHKtj2tyOCEoYu0KKjh-fDuBPwPOvRmTODnEGHVtix6n5B9i2d5HXljVPlMb6IfUyajnHdTnaLDDB_uc6jNzvPWxiLBPFYcJeeqvXvS2pIBt9hX3wzuyQBM09Ur99N4Tz7v8Zpwp-8z6PaAWAgfOTCXm2M1kvkgTpK2lR88NbblrameHBS-rZk9Ryr'); background-size: cover; background-position: center;">
+<div class="absolute bottom-1 right-1 bg-on-background px-1 border border-white">
+<span class="text-[10px] text-on-primary font-black uppercase">18:30</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-label-bold text-[16px] leading-tight text-on-tertiary-container truncate uppercase tracking-tighter">Advanced Scikit-Learn Pipelines</h4>
+<p class="font-label-sm text-label-sm text-on-tertiary-container truncate mt-1 italic opacity-80">by PyGuru</p>
+</div>
+<div class="flex flex-col items-center shrink-0 bg-white p-2 neo-border">
+<button class="text-on-surface">
+<span class="material-symbols-outlined text-[24px] font-black">keyboard_arrow_up</span>
+</button>
+<span class="font-label-bold text-label-bold text-on-surface">198</span>
+</div>
+</div>
+<!-- Feed Item 3 -->
+<div class="flex gap-4 p-4 bg-secondary-fixed neo-border neo-shadow-sm items-center">
+<div class="w-28 h-20 shrink-0 bg-surface-variant neo-border relative overflow-hidden" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD10Z7ZHEd4BY9C2Em-pHCWzLqzk-SfOon3lGhTd_h1-1SUk9DFuhDCQo9b_icAVrUw6zG6zqxxG4Avt9LjMQbevlw62Ssu-Iwd9eeHzZLyqVWODapLsSDyQZuJW_YXOfdLI7_X165KS1lNaICceDBb4zPgkkLUPIXB6ahWfo_vFVQ2Ahrkmo6JIPq3Y9SfyJ3WQONnVTEY2MRFGkZaAQYYjLwDJNmo7ojHb8QYhm9ScPrCBkiyVsK2'); background-size: cover; background-position: center;">
+<div class="absolute bottom-1 right-1 bg-on-background px-1 border border-white">
+<span class="text-[10px] text-on-primary font-black uppercase">11:05</span>
+</div>
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-label-bold text-[16px] leading-tight text-on-secondary-fixed-variant truncate uppercase tracking-tighter">Encoding Categorical Data</h4>
+<p class="font-label-sm text-label-sm text-on-secondary-fixed-variant truncate mt-1 italic opacity-80">by DataDiva</p>
+</div>
+<div class="flex flex-col items-center shrink-0 bg-primary-container p-2 neo-border">
+<button class="text-on-surface">
+<span class="material-symbols-outlined text-[24px] font-black">keyboard_arrow_up</span>
+</button>
+<span class="font-label-bold text-label-bold text-on-surface">156</span>
+</div>
+</div>
+</section>
+<!-- Submit Button FAB -->
+<button class="fixed bottom-8 right-8 w-16 h-16 bg-surface-variant neo-border neo-shadow flex items-center justify-center rounded-full hover:bg-primary-container transition-all z-40 group active:translate-x-1 active:translate-y-1 active:shadow-none">
+<span class="material-symbols-outlined text-[36px] text-on-surface group-hover:rotate-90 transition-transform font-black">add</span>
+</button>
+</div>
+</main>
+</body></html>
