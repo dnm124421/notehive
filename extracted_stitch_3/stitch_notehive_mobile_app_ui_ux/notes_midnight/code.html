@@ -1,0 +1,168 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Anybody:wght@800;900&amp;family=Inter:wght@400&amp;family=Space+Grotesk:wght@700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary-fixed": "#161e00", "on-secondary": "#5b005b", "on-tertiary-fixed": "#1d1d00", "secondary-fixed-dim": "#ffabf3", "surface-container-low": "#1b1b1b", "secondary": "#ffabf3", "on-surface-variant": "#c4c9ac", "tertiary-fixed": "#eaea00", "on-secondary-container": "#500050", "inverse-primary": "#506600", "error": "#ffb4ab", "on-error": "#690005", "surface-tint": "#abd600", "on-tertiary-container": "#686800", "on-tertiary-fixed-variant": "#494900", "surface-container-lowest": "#0e0e0e", "surface-container-high": "#2a2a2a", "surface": "#131313", "on-primary-fixed-variant": "#3c4d00", "outline-variant": "#444933", "secondary-container": "#fe00fe", "on-secondary-fixed": "#380038", "primary": "#ffffff", "on-primary-container": "#556d00", "on-error-container": "#ffdad6", "on-tertiary": "#323200", "primary-container": "#c3f400", "on-background": "#e2e2e2", "outline": "#8e9379", "tertiary": "#ffffff", "surface-dim": "#131313", "inverse-surface": "#e2e2e2", "background": "#131313", "inverse-on-surface": "#303030", "on-secondary-fixed-variant": "#810081", "primary-fixed-dim": "#abd600", "error-container": "#93000a", "on-primary": "#283500", "tertiary-container": "#eaea00", "surface-container": "#1f1f1f", "on-surface": "#e2e2e2", "surface-container-highest": "#353535", "surface-bright": "#393939", "secondary-fixed": "#ffd7f5", "surface-variant": "#353535", "tertiary-fixed-dim": "#cdcd00", "primary-fixed": "#c3f400" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "grid-gutter": "1.5rem", "border-thick": "4px", "stack-sm": "0.5rem", "stack-lg": "2.5rem", "stack-md": "1rem", "grid-margin": "2rem" }, "fontFamily": { "display-lg-mobile": ["Anybody"], "body-md": ["Inter"], "headline-lg": ["Anybody"], "body-lg": ["Inter"], "headline-lg-mobile": ["Anybody"], "label-bold": ["Space Grotesk"], "display-lg": ["Anybody"] }, "fontSize": { "display-lg-mobile": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "900" }], "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }], "headline-lg": ["40px", { "lineHeight": "1.2", "fontWeight": "800" }], "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }], "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "800" }], "label-bold": ["14px", { "lineHeight": "1.2", "fontWeight": "700" }], "display-lg": ["80px", { "lineHeight": "1.0", "letterSpacing": "-0.04em", "fontWeight": "900" }] } } } };</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#131313;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface font-body-md"><header class="fixed top-0 inset-x-0 z-50 bg-surface/90 backdrop-blur-xl pt-safe border-b-border-thick border-secondary-fixed-dim"><div class="h-16 px-4 flex items-center gap-4"><button class="w-12 h-12 flex items-center justify-center bg-primary-container text-on-primary-container border-2 border-primary" onclick="history.back()"><span class="material-symbols-outlined font-bold">arrow_back</span></button><h1 class="font-headline-lg-mobile text-headline-lg-mobile uppercase tracking-tighter">Note Viewer</h1></div></header><main class="flex flex-col relative w-full pt-16 bg-surface"><div class="flex flex-col w-full overflow-hidden bg-surface">
+<!-- Interactive Background Layer -->
+<div class="fixed inset-0 pointer-events-none opacity-20">
+<svg height="100%" width="100%" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<pattern height="40" id="checker" patternunits="userSpaceOnUse" width="40">
+<rect fill="#1f1f1f" height="20" width="20"></rect>
+<rect fill="#1f1f1f" height="20" width="20" x="20" y="20"></rect>
+</pattern>
+</defs>
+<rect fill="url(#checker)" height="100%" width="100%"></rect>
+</svg>
+</div>
+<!-- Hero / Community Top 3 Section -->
+<section class="relative px-4 py-8">
+<div class="relative z-10 flex flex-col gap-6">
+<div class="flex items-center gap-2">
+<span class="bg-primary-container text-on-primary-fixed px-3 py-1 font-label-bold text-label-bold uppercase transform -rotate-2">Live Now</span>
+<div class="h-px flex-1 bg-primary-container/30"></div>
+</div>
+<h2 class="font-display-lg-mobile text-display-lg-mobile text-primary leading-none uppercase italic tracking-tighter">
+        Community <br/> <span class="text-primary-container">Top 3</span>
+</h2>
+<!-- Bento Grid for Top 3 -->
+<div class="grid grid-cols-2 gap-3">
+<!-- Rank 1: Massive Block -->
+<div class="col-span-2 relative bg-primary-container p-6 border-4 border-primary-container shadow-[8px_8px_0px_0px_#556d00] transform rotate-1">
+<div class="flex justify-between items-start">
+<span class="font-display-lg-mobile text-display-lg-mobile text-on-primary-container leading-none">01</span>
+<span class="material-symbols-outlined text-4xl text-on-primary-container">verified</span>
+</div>
+<p class="font-headline-lg-mobile text-headline-lg-mobile text-on-primary-container uppercase mt-4">Vector Quantization</p>
+<div class="mt-4 flex gap-2">
+<span class="bg-on-primary-container text-primary-container px-2 py-1 font-label-bold text-xs uppercase">Viral</span>
+<span class="bg-on-primary-container text-primary-container px-2 py-1 font-label-bold text-xs uppercase">Advanced</span>
+</div>
+</div>
+<!-- Rank 2 -->
+<div class="bg-secondary-container p-4 border-4 border-secondary-container shadow-[4px_4px_0px_0px_#5b005b] -rotate-1">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-secondary-container leading-none">02</span>
+<p class="font-label-bold text-on-secondary-container uppercase mt-2">Denoising Autoencoders</p>
+</div>
+<!-- Rank 3 -->
+<div class="bg-tertiary-fixed p-4 border-4 border-tertiary-fixed shadow-[4px_4px_0px_0px_#686800] rotate-2">
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-tertiary-fixed leading-none">03</span>
+<p class="font-label-bold text-on-tertiary-fixed uppercase mt-2">Feature Engineering</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Navigation / Filter Tabs -->
+<nav class="sticky top-0 z-40 bg-surface/90 backdrop-blur-md px-4 py-4 flex gap-4 overflow-x-auto no-scrollbar border-b-4 border-surface-container-highest">
+<button class="flex-none bg-primary text-on-primary px-6 py-2 font-label-bold uppercase">All Notes</button>
+<button class="flex-none border-2 border-secondary text-secondary px-6 py-2 font-label-bold uppercase">The Stash</button>
+<button class="flex-none border-2 border-primary-container text-primary-container px-6 py-2 font-label-bold uppercase">Community</button>
+</nav>
+<!-- Notes List: High Contrast Neon Cards -->
+<section class="px-4 py-8 flex flex-col gap-6">
+<h3 class="font-headline-lg-mobile text-headline-lg-mobile text-primary uppercase">Recent Drops</h3>
+<!-- Note Card 1 -->
+<div class="group relative bg-surface border-4 border-primary-container p-6 flex flex-col gap-4">
+<div class="absolute -top-4 -right-2 bg-primary-container text-on-primary-container px-4 py-1 font-label-bold uppercase text-xs transform rotate-6 border-2 border-surface">Essential</div>
+<div class="flex justify-between items-start">
+<h4 class="font-headline-lg-mobile text-primary-container leading-tight uppercase">Linear Algebra for DL</h4>
+<span class="material-symbols-outlined text-primary-container">auto_awesome</span>
+</div>
+<p class="text-on-surface-variant font-body-md line-clamp-2">Mastering matrices, tensors, and eigen-decomposition for neural network optimization.</p>
+<div class="flex items-center gap-4 mt-2">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-surface bg-surface-container" data-alt="Close up portrait of a student, neon lighting, gritty cyberpunk aesthetic" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCzi3f3hg7NS47e46ugo6ddKfa7yhlFRN50crnE_lHT7jLRn79LVwLAjbt4DB_QLFVa7J7lUXaVIGYRkL2R9VzRhMO94mbYN9r_KruNCgt3kjhY1kjEK-oHvBar3sN4gVxqbeolGsS2Ovim2v1PPyoDHD3c6SKWtxxL7fTeKIX_Ivfk9w_8Fw0di6kPS7tJuXB0Wqq-_NLwlZwIbd9SHLV1Yxm8y2P0rXbl2kLfQK2vojNH_DJ7tNFf')"></div>
+<div class="w-8 h-8 rounded-full border-2 border-surface bg-surface-container" data-alt="Portrait of a young creator with headphones, purple and green backlight" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAOQ1_WoT1oUxTTTXViE8RC8NOzVhVhxRTyx-Ce65mbQp5bkU1rBWM0hjk6WjqmX1ByLcLAT_QivtxBbgWeu-8gUgidk-hjhm526gTewddZ6_-9t6Tm3H0_gFQc0gXYyAfWW3QAurJbpEhhXqW0-QcR7jzxSn-uCmjiHAp24PulSc9h0Ur8KMfFL9fp2HksOMslC5OXLH92ubsMDvhsW-Xi5wyCIFPvLSubLbF8kIIDJEzppp6vcilk')"></div>
+</div>
+<span class="text-xs font-label-bold text-primary-container uppercase">+24 contributed</span>
+</div>
+</div>
+<!-- Note Card 2 -->
+<div class="relative bg-surface border-4 border-secondary p-6 flex flex-col gap-4 transform -rotate-1">
+<div class="flex justify-between items-start">
+<h4 class="font-headline-lg-mobile text-secondary leading-tight uppercase">CNN Architectures</h4>
+<span class="material-symbols-outlined text-secondary">grid_view</span>
+</div>
+<p class="text-on-surface-variant font-body-md line-clamp-2">From LeNet to EfficientNet. Understanding spatial hierarchies and kernels.</p>
+<button class="w-full bg-secondary text-on-secondary py-3 font-label-bold uppercase flex items-center justify-center gap-2">
+        Unlock Study Guide <span class="material-symbols-outlined text-sm">lock_open</span>
+</button>
+</div>
+</section>
+<!-- THE STASH: PDF Section -->
+<section class="bg-surface-container px-4 py-10 relative">
+<!-- Decorative Tape Element -->
+<div class="absolute -top-3 left-1/2 -translate-x-1/2 w-32 h-8 bg-secondary-container opacity-50 transform -rotate-2 z-20"></div>
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-display-lg-mobile text-display-lg-mobile text-secondary-container uppercase italic tracking-tighter">The Stash</h3>
+<span class="material-symbols-outlined text-secondary-container text-4xl">folder_zip</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<!-- PDF Item 1 -->
+<div class="flex flex-col gap-2 group">
+<div class="aspect-[3/4] bg-surface border-2 border-secondary-container p-4 flex flex-col items-center justify-center gap-4 relative overflow-hidden">
+<div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-secondary-container via-transparent to-transparent"></div>
+<span class="material-symbols-outlined text-5xl text-secondary-container">picture_as_pdf</span>
+<span class="font-label-bold text-center text-xs text-on-surface uppercase px-2">Cheat_Sheet_V2.pdf</span>
+</div>
+<div class="flex justify-between items-center px-1">
+<span class="text-[10px] font-label-bold text-secondary-container uppercase">1.2 MB</span>
+<button class="material-symbols-outlined text-secondary-container">download</button>
+</div>
+</div>
+<!-- PDF Item 2 -->
+<div class="flex flex-col gap-2 group">
+<div class="aspect-[3/4] bg-surface border-2 border-secondary-container p-4 flex flex-col items-center justify-center gap-4 relative overflow-hidden">
+<span class="material-symbols-outlined text-5xl text-secondary-container">picture_as_pdf</span>
+<span class="font-label-bold text-center text-xs text-on-surface uppercase px-2">Optimization_Algos.pdf</span>
+</div>
+<div class="flex justify-between items-center px-1">
+<span class="text-[10px] font-label-bold text-secondary-container uppercase">4.8 MB</span>
+<button class="material-symbols-outlined text-secondary-container">download</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Footer CTA -->
+<section class="p-8 flex flex-col items-center gap-6 text-center">
+<div class="relative">
+<div class="absolute inset-0 bg-primary-container blur-2xl opacity-20 animate-pulse"></div>
+<h4 class="relative font-headline-lg-mobile text-primary uppercase">Ready to contribute?</h4>
+</div>
+<p class="font-body-md text-on-surface-variant max-w-[80%]">Join the underground network of researchers and hackers.</p>
+<div class="flex flex-col w-full gap-4">
+<button class="w-full bg-primary-container text-on-primary-container py-5 font-display-lg-mobile text-2xl uppercase italic border-4 border-on-primary-container shadow-[8px_8px_0px_0px_#ffffff]">
+            Upload Notes
+        </button>
+<div class="flex items-center justify-center gap-8 mt-4">
+<span class="material-symbols-outlined text-secondary-container text-3xl">terminal</span>
+<span class="material-symbols-outlined text-primary-container text-3xl">database</span>
+<span class="material-symbols-outlined text-tertiary-fixed text-3xl">psychology</span>
+</div>
+</div>
+</section>
+<script>
+    // Micro-interaction: Subtle tilt on scroll for cards
+    window.addEventListener('scroll', () => {
+      const cards = document.querySelectorAll('.group');
+      const scrolled = window.scrollY;
+      cards.forEach((card, index) => {
+        const tilt = Math.sin(scrolled * 0.01 + index) * 2;
+        card.style.transform = `rotate(${tilt}deg)`;
+      });
+    });
+
+    // Particle-like effect on PDF download icons
+    document.querySelectorAll('.material-symbols-outlined').forEach(icon => {
+      icon.addEventListener('mouseenter', function() {
+        this.style.transform = 'scale(1.2) rotate(-10deg)';
+        this.style.transition = 'all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)';
+      });
+      icon.addEventListener('mouseleave', function() {
+        this.style.transform = 'scale(1) rotate(0deg)';
+      });
+    });
+  </script>
+</div></main></body></html>

@@ -8,7 +8,7 @@
   <!-- Google Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,100..900;1,100..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Anybody:ital,wght@0,100..900;1,100..900&family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700;800&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
 
   <!-- jsPDF for Client-side PDF Generation -->
@@ -57,9 +57,9 @@
             "headline-lg-mobile": ["Anybody", "sans-serif"],
             "headline-md": ["Anybody", "sans-serif"],
             "display-xl": ["Anybody", "sans-serif"],
-            "label-bold": ["Anybody", "sans-serif"],
-            "body-md": ["Work Sans", "sans-serif"],
-            "body-lg": ["Work Sans", "sans-serif"]
+            "label-bold": ["Space Grotesk", "Anybody", "sans-serif"],
+            "body-md": ["Inter", "Work Sans", "sans-serif"],
+            "body-lg": ["Inter", "Work Sans", "sans-serif"]
           }
         }
       }
@@ -70,6 +70,11 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body class="bg-background font-body-md text-on-background min-h-screen">
+  <!-- Dynamic Background Texture Layer (Midnight Radical) -->
+  <div class="fixed inset-0 pointer-events-none opacity-0 dark:opacity-20 overflow-hidden mix-blend-overlay z-0 transition-opacity duration-300">
+    <div class="absolute inset-0 bg-[radial-gradient(#fe00fe_1px,transparent_1px)] [background-size:24px_24px]"></div>
+    <div class="absolute inset-0 bg-[repeating-linear-gradient(45deg,#000_0px,#000_10px,#1a1a1a_10px,#1a1a1a_11px)]"></div>
+  </div>
 
   <!-- Fixed App Header (Visible when logged in) -->
   <header id="app-header" class="fixed top-0 w-full z-50 bg-surface border-b-4 border-on-background pt-safe" style="display: none;">

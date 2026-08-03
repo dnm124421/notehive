@@ -35,8 +35,12 @@ window.renderNoteDetailModal = function(contentId) {
       </div>
 
       <!-- Title & Meta -->
-      <div>
-        <h2 class="font-headline-md text-2xl uppercase text-on-surface leading-tight">${item.title}</h2>
+      <div class="relative mt-2">
+        <!-- Decorative Tape (Midnight Radical) -->
+        <div class="absolute -top-8 -right-4 bg-tertiary-container px-3 py-1 text-on-tertiary-container font-label-bold uppercase text-[12px] rotate-[8deg] z-20 neo-border neo-shadow-sm">
+          RAW DATA
+        </div>
+        <h2 class="font-headline-md text-2xl uppercase text-on-surface leading-tight pr-12">${item.title}</h2>
         <p class="font-label-sm text-xs text-on-surface-variant mt-1">
           Posted by <strong>@${item.authorName}</strong> · ${new Date(item.createdAt).toLocaleDateString()}
         </p>

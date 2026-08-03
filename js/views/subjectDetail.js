@@ -67,8 +67,15 @@ window.renderSubjectDetailView = function(container, params = {}) {
           </h2>
         </div>
 
+        <!-- Floating Bolt Sticker (Midnight Radical) -->
+        <div class="absolute top-12 left-4 rotate-12 opacity-80 z-20">
+          <div class="w-16 h-16 neo-border rounded-full flex items-center justify-center bg-secondary neo-shadow-sm">
+            <span class="material-symbols-outlined text-on-secondary text-3xl">bolt</span>
+          </div>
+        </div>
+
         <!-- Stamp -->
-        <div class="absolute top-4 right-4 bg-black text-white neo-border p-2 transform rotate-6 neo-shadow">
+        <div class="absolute top-4 right-4 bg-black text-white neo-border p-2 transform rotate-6 neo-shadow z-20">
           <span class="font-label-bold text-xs uppercase text-center block leading-none">NO<br/>GARBAGE</span>
         </div>
       </section>
@@ -259,7 +266,12 @@ window.renderSubjectDetailView = function(container, params = {}) {
                         ${idx + 1}
                       </div>
 
-                      <div class="flex justify-between items-start mb-2 relative z-10">
+                      <!-- Decorative Tape (Midnight Radical) -->
+                      <div class="absolute -top-3 -left-3 bg-secondary-container px-3 py-1 text-on-secondary font-label-bold uppercase text-[12px] rotate-[-5deg] z-20 neo-border neo-shadow-sm">
+                        LEVEL ${idx + 1}
+                      </div>
+
+                      <div class="flex justify-between items-start mb-2 relative z-10 mt-2">
                         <span class="bg-on-surface text-white font-label-bold text-[10px] px-2 py-0.5 uppercase">
                           ${item.categoryLabel || 'Essential'}
                         </span>
