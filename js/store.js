@@ -620,8 +620,66 @@ class StoreEngine {
     }
   }
 
-  getThemePreference() {
-    return localStorage.getItem('NOTEHIVE_THEME') || 'light';
+  // Feed Aggregation Helpers
+  getAllContentFeed(options = {}) {
+    const filter = options.filter || 'all';
+    const searchQuery = (options.searchQuery || '').toLowerCase();
+    const currentUser = this.getCurrentUser();
+
+    let items = [...this.state.content].map(item => {
+      const subject = this.getSubjectById(item.subjectId);
+      const group = subject ? this.getGroupById(subject.groupId) : null;
+      return {
+        ...item,
+        subjectName: subject ? subject.name : 'General',
+        groupName: group ? group.name : 'Academic Hive',
+        commentsCount: item.versionHistory ? Math.max(1, item.versionHistory.length - 1) : 1
+      };
+    });
+
+    if (searchQuery) {
+      items = items.filter(i => 
+        i.title.toLowerCase().includes(searchQuery) ||
+        (i.body && i.body.toLowerCase().includes(searchQuery)) ||
+        i.subjectName.toLowerCase().includes(searchQuery) ||
+        i.authorName.toLowerCase().includes(searchQuery)
+      );
+    }
+
+    if (filter === 'bookmarked') {
+      items = items.filter(i => currentUser.savedOfflineNoteIds.includes(i.id));
+    } else if (filter === 'popular') {
+      items.sort((a, b) => (b.score || 0) - (a.score || 0));
+    } else if (filter === 'new') {
+      items.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+    } else {
+      // Default: mix of score and recency
+      items.sort((a, b) => {
+        const scoreDiff = (b.score || 0) - (a.score || 0);
+        if (scoreDiff !== 0) return scoreDiff;
+        return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+      });
+    }
+
+    return items;
+  }
+
+  getTrendingContent(limit = 5) {
+    const all = this.getAllContentFeed({ filter: 'popular' });
+    return all.slice(0, limit);
+  }
+
+  getUserActivityStats() {
+    const user = this.getCurrentUser();
+    const rankInfo = this.getRankFromPoints(user.points || 0);
+    return {
+      streakDays: 5,
+      todayPoints: 150,
+      rankTitle: rankInfo.title,
+      nextThreshold: rankInfo.nextThreshold,
+      currentPoints: rankInfo.currentPoints,
+      percent: rankInfo.percent
+    };
   }
 }
 

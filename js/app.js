@@ -41,6 +41,9 @@ class Router {
         case 'home':
           window.renderHomeView(mainContainer, this.currentParams);
           break;
+        case 'department':
+          window.renderDepartmentView(mainContainer, this.currentParams);
+          break;
         case 'subjects':
           window.renderSubjectsView(mainContainer, this.currentParams);
           break;
