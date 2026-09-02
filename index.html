@@ -79,15 +79,22 @@
   <!-- Fixed App Header (Visible when logged in) -->
   <header id="app-header" class="fixed top-0 w-full z-50 bg-surface border-b-4 border-on-background pt-safe" style="display: none;">
     <div class="h-16 flex items-center justify-between px-4 max-w-md mx-auto">
-      <div class="flex items-center gap-2 cursor-pointer" onclick="window.router.navigate('home')">
-        <!-- Logo Stamp -->
-        <div class="w-9 h-9 border-2 border-on-background bg-primary-container flex items-center justify-center neo-shadow-sm transform -rotate-3">
-          <svg fill="none" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2L22 7.7735V16.2265L12 22L2 16.2265V7.7735L12 2Z" stroke="var(--on-background)" stroke-linejoin="round" stroke-width="2"></path>
-            <path d="M9 10H15M9 14H13" stroke="var(--on-background)" stroke-linecap="round" stroke-width="2"></path>
-          </svg>
+      <div class="flex items-center gap-2">
+        <!-- Header Back Button -->
+        <button id="header-back-btn" class="w-9 h-9 neo-border bg-surface neo-shadow-sm flex items-center justify-center relative active:translate-x-0.5 active:translate-y-0.5" style="display: none;" title="Go Back">
+          <span class="material-symbols-outlined text-xl text-on-background font-bold">arrow_back</span>
+        </button>
+
+        <div class="flex items-center gap-2 cursor-pointer" onclick="window.router.navigate('home')">
+          <!-- Logo Stamp -->
+          <div class="w-9 h-9 border-2 border-on-background bg-primary-container flex items-center justify-center neo-shadow-sm transform -rotate-3">
+            <svg fill="none" height="18" viewBox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L22 7.7735V16.2265L12 22L2 16.2265V7.7735L12 2Z" stroke="var(--on-background)" stroke-linejoin="round" stroke-width="2"></path>
+              <path d="M9 10H15M9 14H13" stroke="var(--on-background)" stroke-linecap="round" stroke-width="2"></path>
+            </svg>
+          </div>
+          <span class="font-headline-md text-xl uppercase tracking-tighter text-on-background">NoteHive</span>
         </div>
-        <span class="font-headline-md text-xl uppercase tracking-tighter text-on-background">NoteHive</span>
       </div>
 
       <div class="flex items-center gap-3">

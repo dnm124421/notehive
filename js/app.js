@@ -6,21 +6,47 @@ class Router {
   constructor() {
     this.currentRoute = 'welcome';
     this.currentParams = {};
+    this.historyStack = [];
   }
 
-  navigate(route, params = {}) {
+  navigate(route, params = {}, isBack = false) {
+    if (!isBack && this.currentRoute && this.currentRoute !== 'welcome') {
+      const last = this.historyStack[this.historyStack.length - 1];
+      if (!last || last.route !== this.currentRoute || JSON.stringify(last.params) !== JSON.stringify(this.currentParams)) {
+        this.historyStack.push({
+          route: this.currentRoute,
+          params: { ...this.currentParams }
+        });
+      }
+    }
+
     this.currentRoute = route;
     this.currentParams = params;
+
+    if (!isBack && window.history && route !== 'welcome') {
+      window.history.pushState({ route, params }, '', '#' + route);
+    }
+
     this.renderCurrentView();
     window.scrollTo(0, 0);
+  }
+
+  goBack() {
+    if (this.historyStack.length > 0) {
+      const previous = this.historyStack.pop();
+      this.navigate(previous.route, previous.params, true);
+    } else {
+      this.navigate('home', {}, true);
+    }
   }
 
   renderCurrentView() {
     const mainContainer = document.getElementById('app-main-content');
     if (!mainContainer) return;
 
-    // Update bottom nav active state
+    // Update bottom nav active state & header back button
     this.updateBottomNav();
+    this.updateBackButton();
 
     // Toggle Shell Headers & Nav Visibility
     const header = document.getElementById('app-header');
@@ -65,6 +91,17 @@ class Router {
     }
 
     this.updateNotificationBadge();
+  }
+
+  updateBackButton() {
+    const backBtn = document.getElementById('header-back-btn');
+    if (backBtn) {
+      if (this.historyStack.length > 0 && this.currentRoute !== 'welcome') {
+        backBtn.style.display = 'flex';
+      } else {
+        backBtn.style.display = 'none';
+      }
+    }
   }
 
   updateBottomNav() {
@@ -118,6 +155,23 @@ window.showToast = function(message) {
 
 // Initialize App on DOM Loaded
 document.addEventListener('DOMContentLoaded', () => {
+  // Back Button Navigation
+  const backBtn = document.getElementById('header-back-btn');
+  if (backBtn) {
+    backBtn.addEventListener('click', () => {
+      window.router.goBack();
+    });
+  }
+
+  // Handle browser back/forward buttons
+  window.addEventListener('popstate', (e) => {
+    if (e.state && e.state.route) {
+      window.router.navigate(e.state.route, e.state.params || {}, true);
+    } else {
+      window.router.goBack();
+    }
+  });
+
   // Bottom Nav Navigation
   document.querySelectorAll('.app-nav-item').forEach(link => {
     link.addEventListener('click', (e) => {
