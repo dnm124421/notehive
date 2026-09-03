@@ -14,6 +14,13 @@ window.renderSubjectsView = function(container, params = {}) {
     <div class="flex flex-col w-full min-h-screen bg-background pb-28 pt-20">
       <!-- Content Container -->
       <div class="px-4 flex flex-col gap-6 pt-4 max-w-md mx-auto w-full">
+        <!-- Back Navigation Bar -->
+        <div class="flex items-center justify-between">
+          <button id="btn-subjects-back" class="bg-surface text-on-surface neo-border px-3 py-1.5 font-label-bold text-xs uppercase flex items-center gap-1 neo-shadow-sm active:translate-x-0.5 active:translate-y-0.5 cursor-pointer">
+            <span class="material-symbols-outlined text-sm">arrow_back</span> Back
+          </button>
+        </div>
+
         <!-- Hero / Intro -->
         <div class="flex flex-col gap-2 bg-surface-container-lowest neo-border p-4 relative neo-shadow">
           <div class="absolute -top-3 -right-3 w-14 h-14 bg-primary-container neo-border rounded-full flex items-center justify-center rotate-12 neo-shadow animate-pulse">
@@ -136,6 +143,14 @@ window.renderSubjectsView = function(container, params = {}) {
         window.showToast(`Subject "${newSubject.name}" added!`);
         window.router.renderCurrentView();
       }
+    });
+  }
+
+  // Back Button
+  const subjectsBackBtn = container.querySelector('#btn-subjects-back');
+  if (subjectsBackBtn) {
+    subjectsBackBtn.addEventListener('click', () => {
+      window.router.goBack();
     });
   }
 };

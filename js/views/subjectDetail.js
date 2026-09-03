@@ -54,9 +54,14 @@ window.renderSubjectDetailView = function(container, params = {}) {
         <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBesDlyqksG4VQgT05QqJiBjz5BiWW87P87ZhZ2akDv3A3Sl_nIdGqCWz5ZJT65KxOyLBhUyjClwrX_wYNZcNoOmwUzn_fWPkRkIYuoKZqj7yAM_WMntcROiyAOiJEB4j--hlIlnudFfRI4TEBuAkm-sX8M2Fi0x8czx4uq36BlG8k3_oUfz3mEnwAul1dOEGsmvRAPGm6FMHrCMTdcCbxwa0URs5rrJSdTUnDDqcUxKheY8HpF_42y')"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent flex flex-col justify-end p-4">
           <div class="flex items-center justify-between z-10 mb-1">
-            <span class="font-label-bold text-xs text-primary-container uppercase bg-black px-2 py-0.5 border border-primary-container">
-              SUBJECT MODULE
-            </span>
+            <div class="flex items-center gap-2">
+              <button id="btn-subject-back-header" class="bg-black text-primary-container neo-border px-2 py-0.5 font-label-bold text-xs uppercase flex items-center gap-1 cursor-pointer">
+                <span class="material-symbols-outlined text-xs">arrow_back</span> Back
+              </button>
+              <span class="font-label-bold text-xs text-primary-container uppercase bg-black px-2 py-0.5 border border-primary-container">
+                SUBJECT MODULE
+              </span>
+            </div>
             <button id="btn-toggle-mute" class="w-8 h-8 neo-border ${isMuted ? 'bg-error text-white' : 'bg-surface text-on-surface'} flex items-center justify-center neo-shadow-sm">
               <span class="material-symbols-outlined text-sm">${isMuted ? 'notifications_off' : 'notifications_active'}</span>
             </button>
@@ -434,6 +439,14 @@ window.renderSubjectDetailView = function(container, params = {}) {
       const isMutedNow = window.store.getCurrentUser().mutedSubjectIds.includes(subjectId);
       window.showToast(isMutedNow ? `Muted ${subject.name} notifications!` : `Unmuted ${subject.name} notifications!`);
       window.router.renderCurrentView();
+    });
+  }
+
+  // In-page Back Button (hero header)
+  const subjectBackBtn = container.querySelector('#btn-subject-back-header');
+  if (subjectBackBtn) {
+    subjectBackBtn.addEventListener('click', () => {
+      window.router.goBack();
     });
   }
 };
