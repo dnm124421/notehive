@@ -10,7 +10,7 @@ class Router {
   }
 
   navigate(route, params = {}, isBack = false) {
-    if (!isBack && this.currentRoute && this.currentRoute !== 'welcome') {
+    if (!isBack && this.currentRoute) {
       const last = this.historyStack[this.historyStack.length - 1];
       if (!last || last.route !== this.currentRoute || JSON.stringify(last.params) !== JSON.stringify(this.currentParams)) {
         this.historyStack.push({
@@ -34,9 +34,19 @@ class Router {
   goBack() {
     if (this.historyStack.length > 0) {
       const previous = this.historyStack.pop();
-      this.navigate(previous.route, previous.params, true);
+      if (previous.route === 'welcome') {
+        this.navigate('home', {}, true);
+      } else {
+        this.navigate(previous.route, previous.params, true);
+      }
     } else {
-      this.navigate('home', {}, true);
+      if (this.currentRoute === 'subjectDetail') {
+        this.navigate('department', {}, true);
+      } else if (this.currentRoute === 'subjects') {
+        this.navigate('department', {}, true);
+      } else {
+        this.navigate('home', {}, true);
+      }
     }
   }
 
@@ -96,7 +106,7 @@ class Router {
   updateBackButton() {
     const backBtn = document.getElementById('header-back-btn');
     if (backBtn) {
-      if (this.historyStack.length > 0 && this.currentRoute !== 'welcome') {
+      if (this.currentRoute !== 'welcome' && (this.historyStack.length > 0 || this.currentRoute !== 'home')) {
         backBtn.style.display = 'flex';
       } else {
         backBtn.style.display = 'none';
