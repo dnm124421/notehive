@@ -610,6 +610,10 @@ class StoreEngine {
     this.notifyListeners('avatar_update');
   }
 
+  getThemePreference() {
+    return localStorage.getItem('NOTEHIVE_THEME') || 'light';
+  }
+
   setThemePreference(theme) {
     localStorage.setItem('NOTEHIVE_THEME', theme);
     document.documentElement.classList.remove('dark', 'dark-hc');

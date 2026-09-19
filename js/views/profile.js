@@ -1,11 +1,12 @@
 /**
- * Profile View: Avatar Selector, Rank Display, Badges, Offline Saved Notes, 
+ * Profile View: User Stats, Rank Display, Badges, Contributions, Offline Saved Notes, 
  * 3-State Theme Toggle, and Admin Access
  */
 
 window.renderProfileView = function(container) {
   const currentUser = window.store.getCurrentUser();
-  const offlineNotes = window.store.state.content.filter(c => currentUser.savedOfflineNoteIds.includes(c.id));
+  const offlineNotes = window.store.state.content.filter(c => (currentUser.savedOfflineNoteIds || []).includes(c.id));
+  const userContributions = window.store.state.content.filter(c => c.authorId === currentUser.id);
   const currentTheme = window.store.getThemePreference();
 
   // Calculate rank from leaderboard
@@ -28,8 +29,8 @@ window.renderProfileView = function(container) {
 
         <!-- Avatar with change button -->
         <div class="relative mb-3">
-          <img id="profile-avatar-img" class="w-20 h-20 object-cover border-4 border-black neo-shadow bg-white" src="${currentUser.avatarUrl}" />
-          <button id="btn-change-avatar" class="absolute -bottom-2 -right-2 bg-secondary-container neo-border p-1 cursor-pointer active:translate-x-0.5 active:translate-y-0.5">
+          <img id="profile-avatar-img" class="w-20 h-20 object-cover border-4 border-black neo-shadow bg-white" src="${currentUser.avatarUrl}" alt="${currentUser.name}" />
+          <button id="btn-change-avatar" class="absolute -bottom-2 -right-2 bg-secondary-container neo-border p-1 cursor-pointer active:translate-x-0.5 active:translate-y-0.5" title="Change Avatar">
             <span class="material-symbols-outlined text-sm text-secondary">edit</span>
           </button>
         </div>
@@ -43,20 +44,22 @@ window.renderProfileView = function(container) {
           <span class="font-label-bold text-xs uppercase">#${userRank} · ${rankTitle}</span>
         </div>
 
-        <div class="flex gap-4 border-t-3 border-on-surface pt-3 w-full justify-center border-dashed">
+        <div class="grid grid-cols-4 gap-2 border-t-3 border-on-surface pt-3 w-full border-dashed text-center">
           <div>
-            <span class="font-headline-md text-xl block leading-none">${currentUser.points.toLocaleString()}</span>
-            <span class="font-label-sm text-[10px] uppercase text-on-surface-variant">Points</span>
+            <span class="font-headline-md text-lg block leading-none">${currentUser.points.toLocaleString()}</span>
+            <span class="font-label-sm text-[9px] uppercase text-on-surface-variant">Points</span>
           </div>
-          <div class="border-r-2 border-on-surface"></div>
           <div>
-            <span class="font-headline-md text-xl block leading-none">${currentUser.badges.length}</span>
-            <span class="font-label-sm text-[10px] uppercase text-on-surface-variant">Badges</span>
+            <span class="font-headline-md text-lg block leading-none">${userContributions.length}</span>
+            <span class="font-label-sm text-[9px] uppercase text-on-surface-variant">Posts</span>
           </div>
-          <div class="border-r-2 border-on-surface"></div>
           <div>
-            <span class="font-headline-md text-xl block leading-none">${offlineNotes.length}</span>
-            <span class="font-label-sm text-[10px] uppercase text-on-surface-variant">Offline</span>
+            <span class="font-headline-md text-lg block leading-none">${currentUser.badges.length}</span>
+            <span class="font-label-sm text-[9px] uppercase text-on-surface-variant">Badges</span>
+          </div>
+          <div>
+            <span class="font-headline-md text-lg block leading-none">${offlineNotes.length}</span>
+            <span class="font-label-sm text-[9px] uppercase text-on-surface-variant">Offline</span>
           </div>
         </div>
       </div>
@@ -68,6 +71,55 @@ window.renderProfileView = function(container) {
           Admin Moderation & Queue (${totalPending})
         </button>
       ` : ''}
+
+      <!-- Theme Switcher Section -->
+      <div class="flex flex-col gap-3 mb-6">
+        <div class="flex items-center justify-between border-b-3 border-on-surface pb-1">
+          <h2 class="font-headline-md text-lg uppercase text-on-surface">Theme Vibe</h2>
+          <span class="font-label-sm text-xs text-on-surface-variant uppercase font-bold">${currentTheme}</span>
+        </div>
+        <div class="grid grid-cols-3 gap-2">
+          <button data-theme="light" class="btn-theme-toggle py-2 neo-border font-label-bold text-xs uppercase ${currentTheme === 'light' ? 'bg-primary-container neo-shadow' : 'bg-surface'} flex items-center justify-center gap-1 active:translate-x-0.5 active:translate-y-0.5">
+            <span class="material-symbols-outlined text-sm">light_mode</span> Light
+          </button>
+          <button data-theme="dark" class="btn-theme-toggle py-2 neo-border font-label-bold text-xs uppercase ${currentTheme === 'dark' ? 'bg-primary-container neo-shadow' : 'bg-surface'} flex items-center justify-center gap-1 active:translate-x-0.5 active:translate-y-0.5">
+            <span class="material-symbols-outlined text-sm">dark_mode</span> Dark
+          </button>
+          <button data-theme="dark-hc" class="btn-theme-toggle py-2 neo-border font-label-bold text-xs uppercase ${currentTheme === 'dark-hc' ? 'bg-primary-container neo-shadow' : 'bg-surface'} flex items-center justify-center gap-1 active:translate-x-0.5 active:translate-y-0.5">
+            <span class="material-symbols-outlined text-sm">contrast</span> Radical
+          </button>
+        </div>
+      </div>
+
+      <!-- My Contributions Section -->
+      <div class="flex flex-col gap-3 mb-6">
+        <div class="flex items-center justify-between border-b-3 border-on-surface pb-1">
+          <h2 class="font-headline-md text-lg uppercase text-on-surface">My Contributions</h2>
+          <span class="font-label-bold text-xs uppercase bg-black text-white px-2 py-0.5">${userContributions.length} Items</span>
+        </div>
+
+        ${userContributions.length === 0 ? `
+          <div class="bg-surface-container neo-border p-4 text-center">
+            <p class="font-body-md text-xs text-on-surface-variant">No contributions published yet. Tap the '+' button to post notes & earn points!</p>
+          </div>
+        ` : userContributions.map(item => {
+          const subject = window.store.getSubjectById(item.subjectId);
+          return `
+            <div data-content-id="${item.id}" class="btn-view-contribution bg-surface-container-lowest neo-border p-3 neo-shadow-sm flex items-center justify-between cursor-pointer active:translate-x-0.5 active:translate-y-0.5 transition-all">
+              <div class="min-w-0 pr-2">
+                <span class="font-label-sm text-[10px] uppercase text-tertiary font-bold">${subject ? subject.name : 'General'}</span>
+                <h4 class="font-label-bold text-xs uppercase truncate text-on-surface">${item.title}</h4>
+                <div class="flex items-center gap-2 text-[10px] text-on-surface-variant mt-0.5 font-label-bold">
+                  <span>▲ ${item.score || 1} pts</span>
+                  <span>•</span>
+                  <span>${item.pdfName ? 'PDF Document' : 'Resource Link'}</span>
+                </div>
+              </div>
+              <span class="material-symbols-outlined text-sm text-on-surface">chevron_right</span>
+            </div>
+          `;
+        }).join('')}
+      </div>
 
       <!-- Earned Badges Section -->
       <div class="flex flex-col gap-3 mb-6">
@@ -112,9 +164,25 @@ window.renderProfileView = function(container) {
         `).join('')}
       </div>
 
-
     </div>
   `;
+
+  // Theme Toggle Handler
+  container.querySelectorAll('.btn-theme-toggle').forEach(btn => {
+    btn.onclick = (e) => {
+      const theme = e.currentTarget.getAttribute('data-theme');
+      window.store.setThemePreference(theme);
+      window.router.renderCurrentView();
+    };
+  });
+
+  // View Contribution Handler
+  container.querySelectorAll('.btn-view-contribution').forEach(item => {
+    item.onclick = (e) => {
+      const contentId = e.currentTarget.getAttribute('data-content-id');
+      window.router.navigate('noteDetail', { contentId });
+    };
+  });
 
   // Remove Offline note handler
   container.querySelectorAll('.btn-remove-offline').forEach(btn => {
@@ -125,7 +193,6 @@ window.renderProfileView = function(container) {
       window.router.renderCurrentView();
     };
   });
-
 
   // Open Avatar Selector
   const avatarBtn = container.querySelector('#btn-change-avatar');
@@ -167,7 +234,7 @@ window.renderAvatarSelectorModal = function() {
       <div class="grid grid-cols-3 gap-3">
         ${presets.map(av => `
           <button data-avatar-url="${av.url}" class="btn-select-avatar flex flex-col items-center gap-1 p-2 neo-border ${currentUser.avatarUrl === av.url ? 'bg-primary-container neo-shadow' : 'bg-surface-container'} cursor-pointer active:translate-x-0.5 active:translate-y-0.5 transition-all">
-            <img class="w-14 h-14 object-cover border-2 border-black bg-white" src="${av.url}" />
+            <img class="w-14 h-14 object-cover border-2 border-black bg-white" src="${av.url}" alt="${av.name}" />
             <span class="font-label-bold text-[9px] uppercase truncate w-full text-center">${av.name}</span>
           </button>
         `).join('')}
